@@ -1,0 +1,12 @@
+{
+  "name": "zerogpu-typescript-sdk-smoke",
+  "private": true,
+  "scripts": {
+    "smoke": "tsx smoke.ts"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

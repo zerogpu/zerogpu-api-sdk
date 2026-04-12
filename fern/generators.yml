@@ -1,0 +1,72 @@
+# yaml-language-server: $schema=https://schema.buildwithfern.dev/generators-yml.json
+api:
+  specs:
+    - openapi: ../specs/zerogpu.openapi.yaml
+default-group: local
+groups:
+  local:
+    generators:
+      - name: fern-typescript-sdk
+        output:
+          location: local-file-system
+          path: ../sdks/typescript
+        version: 3.62.1
+  python-sdk:
+    generators:
+      - name: fern-python-sdk
+        version: 5.2.1
+        output:
+          location: local-file-system
+          path: ../sdks/python
+  go-sdk:
+    generators:
+      - name: fern-go-sdk
+        version: 1.33.0
+        output:
+          location: local-file-system
+          path: ../sdks/go
+        config:
+          module:
+            path: sdk
+  ruby-sdk:
+    generators:
+      - name: fern-ruby-sdk
+        version: 1.1.13
+        output:
+          location: local-file-system
+          path: ../sdks/ruby
+  java-sdk:
+    generators:
+      - name: fern-java-sdk
+        version: 4.1.0
+        output:
+          location: local-file-system
+          path: ../sdks/java/src/main/java/
+  rust-sdk:
+    generators:
+      - name: fern-rust-sdk
+        version: 0.30.2
+        output:
+          location: local-file-system
+          path: ../sdks/rust
+  csharp-sdk:
+    generators:
+      - name: fern-csharp-sdk
+        version: 2.56.5
+        output:
+          location: local-file-system
+          path: ../sdks/csharp
+  php-sdk:
+    generators:
+      - name: fern-php-sdk
+        version: 2.3.1
+        output:
+          location: local-file-system
+          path: ../sdks/php/sdk
+  swift-sdk:
+    generators:
+      - name: fern-swift-sdk
+        version: 0.30.0
+        output:
+          location: local-file-system
+          path: ../sdks/swift/sdk

@@ -1,0 +1,34 @@
+using global::System.Text.Json;
+using global::System.Text.Json.Serialization;
+using ZerogpuApi.Core;
+
+namespace ZerogpuApi;
+
+[Serializable]
+public record TokenUsage : IJsonOnDeserialized
+{
+    [JsonExtensionData]
+    private readonly IDictionary<string, JsonElement> _extensionData =
+        new Dictionary<string, JsonElement>();
+
+    [JsonPropertyName("input_tokens")]
+    public int? InputTokens { get; set; }
+
+    [JsonPropertyName("output_tokens")]
+    public int? OutputTokens { get; set; }
+
+    [JsonPropertyName("total_tokens")]
+    public int? TotalTokens { get; set; }
+
+    [JsonIgnore]
+    public ReadOnlyAdditionalProperties AdditionalProperties { get; private set; } = new();
+
+    void IJsonOnDeserialized.OnDeserialized() =>
+        AdditionalProperties.CopyFromExtensionData(_extensionData);
+
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return JsonUtils.Serialize(this);
+    }
+}

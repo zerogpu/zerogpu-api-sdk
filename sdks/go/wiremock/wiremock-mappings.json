@@ -1,0 +1,33 @@
+{
+  "mappings": [
+    {
+      "id": "af864a3a-8883-4882-8738-479ec0bc2d9c",
+      "name": "Send input to a model and receive a response - default",
+      "request": {
+        "urlPathTemplate": "/responses",
+        "method": "POST"
+      },
+      "response": {
+        "status": 200,
+        "body": "{\n  \"id\": \"resp_abc123\",\n  \"object\": \"response\",\n  \"created\": 1000000,\n  \"model\": \"model\",\n  \"output\": [\n    {\n      \"type\": \"message\",\n      \"role\": \"assistant\",\n      \"content\": [\n        {\n          \"type\": \"output_text\"\n        }\n      ]\n    }\n  ],\n  \"usage\": {\n    \"input_tokens\": 1,\n    \"output_tokens\": 1,\n    \"total_tokens\": 1\n  }\n}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "af864a3a-8883-4882-8738-479ec0bc2d9c",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      }
+    }
+  ],
+  "meta": {
+    "total": 1
+  }
+}

@@ -1,0 +1,76 @@
+<?php
+
+namespace Zerogpu\Tests\Core\Json;
+
+use PHPUnit\Framework\TestCase;
+use Zerogpu\Core\Json\JsonEncoder;
+use Zerogpu\Core\Json\JsonProperty;
+use Zerogpu\Core\Json\JsonSerializableType;
+
+class Person extends JsonSerializableType
+{
+    /**
+     * @var string $name
+     */
+    #[JsonProperty('name')]
+    private string $name;
+
+    /**
+     * @var string|null $email
+     */
+    #[JsonProperty('email')]
+    private ?string $email;
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param array{
+     *   name: string,
+     *   email?: string|null,
+     * } $values
+     */
+    public function __construct(
+        array $values,
+    ) {
+        $this->name = $values['name'];
+        $this->email = $values['email'] ?? null;
+    }
+}
+
+class AdditionalPropertiesTest extends TestCase
+{
+    public function testExtraProperties(): void
+    {
+        $expectedJson = JsonEncoder::encode(
+            [
+                'name' => 'john.doe',
+                'email' => 'john.doe@example.com',
+                'age' => 42
+            ],
+        );
+
+        $person = Person::fromJson($expectedJson);
+        $this->assertEquals('john.doe', $person->getName());
+        $this->assertEquals('john.doe@example.com', $person->getEmail());
+        $this->assertEquals(
+            [
+            'age' => 42
+        ],
+            $person->getAdditionalProperties(),
+        );
+    }
+}
