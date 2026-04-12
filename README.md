@@ -63,26 +63,38 @@ SDKs are generated from `specs/zerogpu.openapi.yaml` using [Fern](https://buildw
 
 See Fern’s [SDK quickstart](https://buildwithfern.com/learn/sdks/overview/quickstart) for CLI install details.
 
-### Publishing to npm and PyPI
+### Publishing to npm and PyPI (recommended)
 
-This repo currently uses **`output.location: local-file-system`** in `fern/generators.yml`, so `fern generate` writes into `sdks/` without creating a publishable **npm** or **PyPI** package manifest by itself. To publish through Fern’s pipeline, switch the **TypeScript** and **Python** groups to registry output and add metadata (package names must be unused on npmjs.org / PyPI).
+This repo ships **standalone packages** that do not rely on Fern’s paid registry flow:
 
-**TypeScript → npm**
+| Path | Registry | Package name (change if taken) |
+|------|----------|----------------------------------|
+| [`npm/`](./npm/) | [npmjs.com](https://www.npmjs.com/) | `zerogpu-api` (see `npm/package.json`) |
+| [`pypi/`](./pypi/) | [PyPI](https://pypi.org/) | `zerogpu-api` — `pip install zerogpu-api` imports **`zerogpu`** |
 
-1. In `generators.yml`, for the TS group, set `output.location` to **`npm`**, add **`package-name`** (e.g. `@zerogpu/api`), optional **`config.namespaceExport`**, and a **`github`** block pointing at this repo (see Fern’s reference).
-2. Authenticate: Fern recommends **OIDC** (“trusted publishing”) with `token: OIDC` on the npm output, or legacy **`token: ${NPM_TOKEN}`** and a GitHub secret.
-3. Run `fern generate --group local` (or your TS group name) so Fern emits `package.json`, build steps, and usually a CI workflow, then follow releases as in Fern’s guide.
+**npm**
 
-Full walkthrough: [Publishing to npm](https://buildwithfern.com/learn/sdks/generators/typescript/publishing).
+```bash
+cd npm
+npm install
+npm run build
+npm publish --access public
+```
 
-**Python → PyPI**
+**PyPI** — use a [venv](https://docs.python.org/3/library/venv.html) and [PyPI API token](https://pypi.org/manage/account/token/):
 
-1. Set **`output.location` to `pypi`**, **`package-name`** (e.g. `zerogpu`), optional **`config.client_class_name`**, **`github.repository`**, and **`token: ${PYPI_TOKEN}`** (PyPI API token in GitHub Actions secrets).
-2. Run `fern generate --group python-sdk --version <semver>` with `FERN_TOKEN` (and `PYPI_TOKEN` in CI) set as Fern documents.
+```bash
+./scripts/sync-pypi-from-sdks.sh   # after `fern generate` updates sdks/python
+cd pypi
+python -m venv .venv && . .venv/bin/activate
+pip install build twine
+python -m build
+twine upload dist/*
+```
 
-Full walkthrough: [Publishing to PyPI](https://buildwithfern.com/learn/sdks/generators/python/publishing).
+After regenerating Python with Fern, run **`sync-pypi-from-sdks.sh`** so `pypi/src/zerogpu` stays in sync with `sdks/python`.
 
-**Without Fern’s registry mode:** you can hand-add **`package.json`** + a bundler (`tsup` / `tsc`) for TypeScript, or **`pyproject.toml`** + a `src/zerogpu` layout for Python, but that duplicates what Fern generates when `output.location` is `npm` / `pypi`—prefer the official config once you are ready to publish.
+**Optional:** Fern can also publish directly from `generators.yml` ([npm](https://buildwithfern.com/learn/sdks/generators/typescript/publishing), [PyPI](https://buildwithfern.com/learn/sdks/generators/python/publishing)); you don’t need that if you use `npm/` and `pypi/` above.
 
 ## Repository layout
 
@@ -91,6 +103,9 @@ Full walkthrough: [Publishing to PyPI](https://buildwithfern.com/learn/sdks/gene
 | `specs/zerogpu.openapi.yaml` | API definition used for generation |
 | `fern/` | Fern configuration |
 | `sdks/` | Generated output (do not hand-edit; regenerate) |
+| `npm/` | npm package (`tsup` bundles `sdks/typescript`) |
+| `pypi/` | PyPI package (`src/zerogpu` synced from `sdks/python`) |
+| `scripts/sync-pypi-from-sdks.sh` | Refresh Python package after Fern regen |
 | `typescript-smoke/` | Local smoke test for the TS client |
 
 ## License
