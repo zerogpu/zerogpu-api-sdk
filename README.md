@@ -1,58 +1,77 @@
 # ZeroGPU SDK
 
-Official API clients for [ZeroGPU](https://zerogpu.ai), generated from the OpenAPI spec with [Fern](https://buildwithfern.com/). Human-facing API documentation lives at [docs.zerogpu.ai](https://docs.zerogpu.ai).
+Official API client libraries for [ZeroGPU](https://zerogpu.ai). Use them to call `POST /v1/responses` with your API key and project id.
 
-## Repository layout
+**API reference and guides:** [docs.zerogpu.ai](https://docs.zerogpu.ai) (authentication, models, error codes).
 
-| Path | Description |
-|------|-------------|
-| `specs/zerogpu.openapi.yaml` | Source of truth for `POST /v1/responses` |
-| `fern/` | Fern config (`generators.yml`, `fern.config.json`) |
-| `sdks/` | Generated clients (TypeScript, Python, Go, Ruby, Java, Rust, C#, PHP, Swift) |
-| `typescript-smoke/` | Minimal script to verify the TypeScript client against the live API |
+## Languages
 
-## Regenerate SDKs
+Clients live under `sdks/`:
 
-Prerequisites: Node.js, [`fern-api`](https://buildwithfern.com/learn/sdks/overview/quickstart) CLI, and a Fern account (`fern login` or `FERN_TOKEN`).
+| Directory | Language |
+|-----------|----------|
+| `sdks/typescript` | TypeScript / JavaScript |
+| `sdks/python` | Python |
+| `sdks/go` | Go |
+| `sdks/ruby` | Ruby |
+| `sdks/java` | Java |
+| `sdks/rust` | Rust |
+| `sdks/csharp` | C# / .NET |
+| `sdks/php/sdk` | PHP |
+| `sdks/swift/sdk` | Swift |
 
-```bash
-cd fern
-npx fern-api check
-```
+When you publish packages to npm, PyPI, crates.io, etc., point users at those registries and [docs.zerogpu.ai](https://docs.zerogpu.ai); most developers do not need this repo’s internals.
 
-Generate one language (examples):
+## Quick start (local checkout)
 
-```bash
-npx fern-api generate              # default group: TypeScript → ../sdks/typescript
-npx fern-api generate --group python-sdk
-npx fern-api generate --group go-sdk
-```
+Environment variables (same as the [dashboard](https://zerogpu.ai) snippets):
 
-See `fern/generators.yml` for all groups and output paths.
+- `ZEROGPU_API_KEY`
+- `ZEROGPU_PROJECT_ID`
+- Optional: `ZEROGPU_API_URL` if you use a non-default API host (dev vs prod must match your credentials)
 
-## Try the TypeScript client
-
-From `typescript-smoke/` (see that folder’s header comment for env vars). Do not commit secrets.
+**Smoke test (TypeScript)** — verifies a live request with the generated client:
 
 ```bash
 cd typescript-smoke
 npm install
 export ZEROGPU_API_KEY=…
 export ZEROGPU_PROJECT_ID=…
-export ZEROGPU_MODEL=…   # model id from the ZeroGPU dashboard
+export ZEROGPU_MODEL=…   # from your dashboard
 npm run smoke
 ```
 
-Optional: `ZEROGPU_API_URL` for dev vs prod (must match your key/project environment). The smoke loader also reads `../../Benchmark/.env` if you use the benchmark repo next to this one.
+Do not commit secrets. See `typescript-smoke/smoke.ts` for optional `ZEROGPU_API_URL` behavior.
 
-## API overview
+## `POST /v1/responses` (reminder)
 
-- **Base URL:** `https://api.zerogpu.ai/v1` (production)
-- **Endpoint:** `POST /responses`
+- **Production base URL:** `https://api.zerogpu.ai/v1`
+- **Path:** `/responses`
 - **Headers:** `x-api-key`, `x-project-id`, `content-type: application/json`
 
-Details: [Responses API](https://docs.zerogpu.ai/api-reference/endpoint/responses).
+Full spec: [Responses API](https://docs.zerogpu.ai/api-reference/endpoint/responses).
+
+---
+
+## For maintainers: regenerating clients
+
+SDKs are generated from `specs/zerogpu.openapi.yaml` using [Fern](https://buildwithfern.com/). To update or rebuild:
+
+1. Edit the OpenAPI file if the API changed.
+2. Run `npx fern-api check` from the `fern/` directory (or repo root with paths adjusted).
+3. Run `npx fern-api generate` (after `fern login` or with `FERN_TOKEN`). Generator groups and output paths are in `fern/generators.yml`.
+
+See Fern’s [SDK quickstart](https://buildwithfern.com/learn/sdks/overview/quickstart) for CLI install details.
+
+## Repository layout
+
+| Path | Description |
+|------|-------------|
+| `specs/zerogpu.openapi.yaml` | API definition used for generation |
+| `fern/` | Fern configuration |
+| `sdks/` | Generated output (do not hand-edit; regenerate) |
+| `typescript-smoke/` | Local smoke test for the TS client |
 
 ## License
 
-Add a `LICENSE` file at the repo root when you publish; generated SDKs follow your chosen license for distributed packages.
+Add a root `LICENSE` when you publish; align it with packages you ship to npm, PyPI, etc.
