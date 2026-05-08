@@ -28,7 +28,7 @@ Environment variables (same as the [dashboard](https://zerogpu.ai) snippets):
 
 - `ZEROGPU_API_KEY`
 - `ZEROGPU_PROJECT_ID`
-- Optional: `ZEROGPU_API_URL` if you use a non-default API host (dev vs prod must match your credentials)
+- `ZEROGPU_API_URL` is optional and override-only. If unset, clients default to production: `https://api.zerogpu.ai/v1`
 
 **Smoke test (TypeScript)** — verifies a live request with the generated client:
 
@@ -42,6 +42,20 @@ npm run smoke
 ```
 
 Do not commit secrets. See `typescript-smoke/smoke.ts` for optional `ZEROGPU_API_URL` behavior.
+
+### Production input shape note
+
+For current production models on `POST /v1/responses`, `input` is typically sent as a plain string:
+
+```json
+{
+  "model": "zlm-v1-followup-questions-edge",
+  "input": "In one short sentence, what is a habit tracker?",
+  "text": { "format": { "type": "text" } }
+}
+```
+
+Use model-specific payloads from [docs.zerogpu.ai](https://docs.zerogpu.ai) if a model requires a different format.
 
 ## `POST /v1/responses` (reminder)
 

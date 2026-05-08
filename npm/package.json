@@ -1,8 +1,25 @@
 {
-  "name": "zerogpu-api",
-  "version": "0.1.0",
-  "description": "Official ZeroGPU API client (TypeScript)",
+  "name": "zerogpu",
+  "version": "0.1.1",
+  "description": "Official ZeroGPU API client for Node.js and TypeScript",
   "license": "MIT",
+  "homepage": "https://docs.zerogpu.ai",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zerogpu/SDK.git",
+    "directory": "npm"
+  },
+  "bugs": {
+    "url": "https://github.com/zerogpu/SDK/issues"
+  },
+  "keywords": [
+    "zerogpu",
+    "ai",
+    "sdk",
+    "inference",
+    "typescript",
+    "nodejs"
+  ],
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",

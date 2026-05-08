@@ -1,30 +1,51 @@
-# zerogpu-api (npm)
+# zerogpu
 
-Official ZeroGPU API client for Node.js and browsers (bundled TypeScript SDK).
+Official ZeroGPU API client for Node.js and modern runtimes.
 
 ## Install
 
 ```bash
-npm install zerogpu-api
+npm install zerogpu
 ```
 
-## Build (maintainers)
+## Quick Start
+
+```ts
+import { ZerogpuApiClient } from "zerogpu";
+
+const client = new ZerogpuApiClient({
+  apiKey: process.env.ZEROGPU_API_KEY!,
+  projectId: process.env.ZEROGPU_PROJECT_ID!,
+});
+
+const response = await client.responses.createResponse({
+  model: "zlm-v1-followup-questions-edge",
+  input: "In one short sentence, what is a habit tracker?",
+  text: { format: { type: "text" } },
+});
+
+console.log(response.output);
+```
+
+## Environment Variables
+
+- `ZEROGPU_API_KEY`
+- `ZEROGPU_PROJECT_ID`
+- `ZEROGPU_API_URL` is optional and override-only. If unset, the SDK always uses production: `https://api.zerogpu.ai/v1`
+
+## API Reference
+
+- [ZeroGPU docs](https://docs.zerogpu.ai)
+- [Responses endpoint](https://docs.zerogpu.ai/api-reference/endpoint/responses)
+
+## Maintainers
 
 From this `npm/` directory:
 
 ```bash
 npm install
 npm run build
-```
-
-Output is in `dist/`. The entry bundles `../sdks/typescript` via `tsup`.
-
-## Publish
-
-```bash
 npm publish --access public
 ```
 
-Use an npm account with access to the package name (or a scoped name like `@your-org/zerogpu-api` — update `package.json`).
-
-See the repo root `README.md` for API docs and env vars.
+This package bundles the generated TypeScript SDK from `../sdks/typescript` via `tsup`.
