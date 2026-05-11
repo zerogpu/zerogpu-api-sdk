@@ -1,6 +1,6 @@
-# zerogpu-api (Python)
+# zerogpu-api (Python SDK)
 
-Official ZeroGPU API client for Python.
+Official Python SDK for the ZeroGPU Responses API. Build production integrations with typed models, clear errors, and simple authentication.
 
 ## Install
 
@@ -23,6 +23,8 @@ client.responses.create_response(
     text={"format": {"type": "text"}},
 )
 ```
+
+Response text is returned in the standard Responses API payload shape (`output` blocks).
 
 ## API Reference
 

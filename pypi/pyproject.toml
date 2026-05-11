@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "zerogpu-api"
-version = "0.1.0"
-description = "Official ZeroGPU API client (Python)"
+version = "0.1.1"
+description = "Official ZeroGPU Python SDK for the Responses API"
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.9"

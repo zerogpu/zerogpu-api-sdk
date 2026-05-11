@@ -1,17 +1,17 @@
-# zerogpu
+# zerogpu-api
 
 Official ZeroGPU API client for Node.js and modern runtimes.
 
 ## Install
 
 ```bash
-npm install zerogpu
+npm install zerogpu-api
 ```
 
 ## Quick Start
 
 ```ts
-import { ZerogpuApiClient } from "zerogpu";
+import { ZerogpuApiClient } from "zerogpu-api";
 
 const client = new ZerogpuApiClient({
   apiKey: process.env.ZEROGPU_API_KEY!,

@@ -1,6 +1,6 @@
 {
-  "name": "zerogpu",
-  "version": "0.1.1",
+  "name": "zerogpu-api",
+  "version": "0.1.2",
   "description": "Official ZeroGPU API client for Node.js and TypeScript",
   "license": "MIT",
   "homepage": "https://docs.zerogpu.ai",
