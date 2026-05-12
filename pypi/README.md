@@ -1,6 +1,6 @@
 # zerogpu-api (Python SDK)
 
-Official Python SDK for the ZeroGPU Responses API. Build production integrations with typed models, clear errors, and simple authentication.
+Official Python SDK for the ZeroGPU API: **`POST /v1/responses`** and **`POST /v1/chat/completions`**, with `x-api-key` and `x-project-id` on every request.
 
 ## Install
 
@@ -8,25 +8,55 @@ Official Python SDK for the ZeroGPU Responses API. Build production integrations
 pip install zerogpu-api
 ```
 
-## Quick Start
+## Quick start — Responses
+
+`input` may be a **string** or a **list** of message dicts / `InputMessage`, depending on the model.
 
 ```python
+import os
 from zerogpu import ZerogpuApi
 
 client = ZerogpuApi(
-    api_key="…",
-    project_id="…",
+    api_key=os.environ["ZEROGPU_API_KEY"],
+    project_id=os.environ["ZEROGPU_PROJECT_ID"],
 )
-client.responses.create_response(
+
+response = client.responses.create_response(
     model="zlm-v1-followup-questions-edge",
     input="In one short sentence, what is a habit tracker?",
     text={"format": {"type": "text"}},
 )
+print(response)
 ```
 
-Response text is returned in the standard Responses API payload shape (`output` blocks).
+### Optional `metadata` (Responses)
 
-## API Reference
+```python
+client.responses.create_response(
+    model="gliner-multi-pii-v1",
+    input="Your text…",
+    metadata={"mask": "label", "usecase": "redact"},
+)
+```
+
+## Chat completions
+
+```python
+from zerogpu import ChatMessage
+
+client.chat.create_chat_completion(
+    model="gliner-multi-pii-v1",
+    messages=[ChatMessage(role="user", content="Your text…")],
+    metadata={"mask": "label", "usecase": "redact"},
+)
+```
+
+## API reference
 
 - [ZeroGPU docs](https://docs.zerogpu.ai)
-- [Responses endpoint](https://docs.zerogpu.ai/api-reference/endpoint/responses)
+- [Responses](https://docs.zerogpu.ai/api-reference/endpoint/responses)
+- [Chat completions](https://docs.zerogpu.ai/api-reference/endpoint/chat-completions)
+
+## Repository
+
+Source and release workflow: [github.com/zerogpu/SDK](https://github.com/zerogpu/SDK) (Python package lives under `pypi/`).

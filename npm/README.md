@@ -1,6 +1,6 @@
 # zerogpu-api
 
-Official ZeroGPU API client for Node.js and modern runtimes.
+Official ZeroGPU API client for Node.js and TypeScript. Covers **`POST /v1/responses`** and **`POST /v1/chat/completions`** with the same headers (`x-api-key`, `x-project-id`).
 
 ## Install
 
@@ -8,7 +8,9 @@ Official ZeroGPU API client for Node.js and modern runtimes.
 npm install zerogpu-api
 ```
 
-## Quick Start
+## Quick start — Responses
+
+`input` may be a **plain string** or an **array** of `{ role, content }` messages, depending on the model.
 
 ```ts
 import { ZerogpuApiClient } from "zerogpu-api";
@@ -27,16 +29,43 @@ const response = await client.responses.createResponse({
 console.log(response.output);
 ```
 
-## Environment Variables
+### Optional `metadata` (Responses)
+
+Some models accept extra options on the responses route (e.g. PII `mask` / `usecase`):
+
+```ts
+await client.responses.createResponse({
+  model: "gliner-multi-pii-v1",
+  input: "Your text…",
+  metadata: { mask: "label", usecase: "redact" },
+});
+```
+
+## Chat completions
+
+For models that use the chat-completions shape:
+
+```ts
+const completion = await client.chat.createChatCompletion({
+  model: "gliner-multi-pii-v1",
+  messages: [{ role: "user", content: "Your text…" }],
+  metadata: { mask: "label", usecase: "redact" },
+});
+
+console.log(completion);
+```
+
+## Environment variables
 
 - `ZEROGPU_API_KEY`
 - `ZEROGPU_PROJECT_ID`
-- `ZEROGPU_API_URL` is optional and override-only. If unset, the SDK always uses production: `https://api.zerogpu.ai/v1`
+- `ZEROGPU_API_URL` — optional override only; if unset, the client uses production `https://api.zerogpu.ai/v1`
 
-## API Reference
+## API reference
 
 - [ZeroGPU docs](https://docs.zerogpu.ai)
-- [Responses endpoint](https://docs.zerogpu.ai/api-reference/endpoint/responses)
+- [Responses](https://docs.zerogpu.ai/api-reference/endpoint/responses)
+- [Chat completions](https://docs.zerogpu.ai/api-reference/endpoint/chat-completions)
 
 ## Maintainers
 
