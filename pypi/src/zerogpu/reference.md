@@ -69,6 +69,97 @@ required by your model; see [docs](https://docs.zerogpu.ai/api-reference/endpoin
 <dl>
 <dd>
 
+**metadata:** `typing.Optional[typing.Dict[str, typing.Any]]` — Optional model-specific parameters (e.g. PII `mask`, `usecase`). Omit when not required.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Chat
+<details><summary><code>client.chat.<a href="src/zerogpu/chat/client.py">create_chat_completion</a>(...) -> ChatCompletionResponse</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from zerogpu import ZerogpuApi, ChatMessage
+from zerogpu.environment import ZerogpuApiEnvironment
+
+client = ZerogpuApi(
+    api_key="<value>",
+    project_id="<x-project-id>",
+    environment=ZerogpuApiEnvironment.PRODUCTION,
+)
+
+client.chat.create_chat_completion(
+    model="model",
+    messages=[
+        ChatMessage(
+            role="system",
+            content="content",
+        )
+    ],
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**model:** `str` — Model identifier from the ZeroGPU dashboard.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**messages:** `typing.List[ChatMessage]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**metadata:** `typing.Optional[typing.Dict[str, typing.Any]]` — Optional model-specific parameters (e.g. PII options).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>

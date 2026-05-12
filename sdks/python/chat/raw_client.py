@@ -15,63 +15,53 @@ from ..errors.forbidden_error import ForbiddenError
 from ..errors.internal_server_error import InternalServerError
 from ..errors.method_failure_error import MethodFailureError
 from ..errors.unauthorized_error import UnauthorizedError
+from ..types.chat_completion_response import ChatCompletionResponse
+from ..types.chat_message import ChatMessage
 from ..types.error_response import ErrorResponse
-from ..types.response import Response
-from ..types.text_response_config import TextResponseConfig
-from .types.create_response_request_input import CreateResponseRequestInput
 from pydantic import ValidationError
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
 
 
-class RawResponsesClient:
+class RawChatClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    def create_response(
+    def create_chat_completion(
         self,
         *,
         model: str,
-        input: CreateResponseRequestInput,
-        text: typing.Optional[TextResponseConfig] = OMIT,
+        messages: typing.Sequence[ChatMessage],
         metadata: typing.Optional[typing.Dict[str, typing.Any]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> HttpResponse[Response]:
+    ) -> HttpResponse[ChatCompletionResponse]:
         """
         Parameters
         ----------
         model : str
-            Model identifier from the ZeroGPU dashboard (e.g. summarization or IAB classify).
+            Model identifier from the ZeroGPU dashboard.
 
-        input : CreateResponseRequestInput
-            Model-dependent input. Many production models accept a **plain string**.
-            Others accept a **chat-style message list** (`role` + `content`). Use the shape
-            required by your model; see [docs](https://docs.zerogpu.ai/api-reference/endpoint/responses).
-
-        text : typing.Optional[TextResponseConfig]
+        messages : typing.Sequence[ChatMessage]
 
         metadata : typing.Optional[typing.Dict[str, typing.Any]]
-            Optional model-specific parameters (e.g. PII `mask`, `usecase`). Omit when not required.
+            Optional model-specific parameters (e.g. PII options).
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        HttpResponse[Response]
+        HttpResponse[ChatCompletionResponse]
             Success
         """
         _response = self._client_wrapper.httpx_client.request(
-            "responses",
+            "chat/completions",
             method="POST",
             json={
                 "model": model,
-                "input": convert_and_respect_annotation_metadata(
-                    object_=input, annotation=CreateResponseRequestInput, direction="write"
-                ),
-                "text": convert_and_respect_annotation_metadata(
-                    object_=text, annotation=TextResponseConfig, direction="write"
+                "messages": convert_and_respect_annotation_metadata(
+                    object_=messages, annotation=typing.Sequence[ChatMessage], direction="write"
                 ),
                 "metadata": metadata,
             },
@@ -84,9 +74,9 @@ class RawResponsesClient:
         try:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    Response,
+                    ChatCompletionResponse,
                     parse_obj_as(
-                        type_=Response,  # type: ignore
+                        type_=ChatCompletionResponse,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -156,53 +146,44 @@ class RawResponsesClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
 
-class AsyncRawResponsesClient:
+class AsyncRawChatClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    async def create_response(
+    async def create_chat_completion(
         self,
         *,
         model: str,
-        input: CreateResponseRequestInput,
-        text: typing.Optional[TextResponseConfig] = OMIT,
+        messages: typing.Sequence[ChatMessage],
         metadata: typing.Optional[typing.Dict[str, typing.Any]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncHttpResponse[Response]:
+    ) -> AsyncHttpResponse[ChatCompletionResponse]:
         """
         Parameters
         ----------
         model : str
-            Model identifier from the ZeroGPU dashboard (e.g. summarization or IAB classify).
+            Model identifier from the ZeroGPU dashboard.
 
-        input : CreateResponseRequestInput
-            Model-dependent input. Many production models accept a **plain string**.
-            Others accept a **chat-style message list** (`role` + `content`). Use the shape
-            required by your model; see [docs](https://docs.zerogpu.ai/api-reference/endpoint/responses).
-
-        text : typing.Optional[TextResponseConfig]
+        messages : typing.Sequence[ChatMessage]
 
         metadata : typing.Optional[typing.Dict[str, typing.Any]]
-            Optional model-specific parameters (e.g. PII `mask`, `usecase`). Omit when not required.
+            Optional model-specific parameters (e.g. PII options).
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        AsyncHttpResponse[Response]
+        AsyncHttpResponse[ChatCompletionResponse]
             Success
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "responses",
+            "chat/completions",
             method="POST",
             json={
                 "model": model,
-                "input": convert_and_respect_annotation_metadata(
-                    object_=input, annotation=CreateResponseRequestInput, direction="write"
-                ),
-                "text": convert_and_respect_annotation_metadata(
-                    object_=text, annotation=TextResponseConfig, direction="write"
+                "messages": convert_and_respect_annotation_metadata(
+                    object_=messages, annotation=typing.Sequence[ChatMessage], direction="write"
                 ),
                 "metadata": metadata,
             },
@@ -215,9 +196,9 @@ class AsyncRawResponsesClient:
         try:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    Response,
+                    ChatCompletionResponse,
                     parse_obj_as(
-                        type_=Response,  # type: ignore
+                        type_=ChatCompletionResponse,  # type: ignore
                         object_=_response.json(),
                     ),
                 )

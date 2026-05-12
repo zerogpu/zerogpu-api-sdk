@@ -10,6 +10,7 @@ from .core.logging import LogConfig, Logger
 from .environment import ZerogpuApiEnvironment
 
 if typing.TYPE_CHECKING:
+    from .chat.client import AsyncChatClient, ChatClient
     from .responses.client import AsyncResponsesClient, ResponsesClient
 
 
@@ -88,6 +89,7 @@ class ZerogpuApi:
             logging=logging,
         )
         self._responses: typing.Optional[ResponsesClient] = None
+        self._chat: typing.Optional[ChatClient] = None
 
     @property
     def responses(self):
@@ -96,6 +98,14 @@ class ZerogpuApi:
 
             self._responses = ResponsesClient(client_wrapper=self._client_wrapper)
         return self._responses
+
+    @property
+    def chat(self):
+        if self._chat is None:
+            from .chat.client import ChatClient  # noqa: E402
+
+            self._chat = ChatClient(client_wrapper=self._client_wrapper)
+        return self._chat
 
 
 class AsyncZerogpuApi:
@@ -173,6 +183,7 @@ class AsyncZerogpuApi:
             logging=logging,
         )
         self._responses: typing.Optional[AsyncResponsesClient] = None
+        self._chat: typing.Optional[AsyncChatClient] = None
 
     @property
     def responses(self):
@@ -181,6 +192,14 @@ class AsyncZerogpuApi:
 
             self._responses = AsyncResponsesClient(client_wrapper=self._client_wrapper)
         return self._responses
+
+    @property
+    def chat(self):
+        if self._chat is None:
+            from .chat.client import AsyncChatClient  # noqa: E402
+
+            self._chat = AsyncChatClient(client_wrapper=self._client_wrapper)
+        return self._chat
 
 
 def _get_base_url(*, base_url: typing.Optional[str] = None, environment: ZerogpuApiEnvironment) -> str:

@@ -7,6 +7,9 @@ from importlib import import_module
 
 if typing.TYPE_CHECKING:
     from .types import (
+        ChatCompletionResponse,
+        ChatMessage,
+        ChatMessageRole,
         ErrorResponse,
         InputMessage,
         InputMessageRole,
@@ -18,13 +21,16 @@ if typing.TYPE_CHECKING:
         TokenUsage,
     )
     from .errors import BadRequestError, ForbiddenError, InternalServerError, MethodFailureError, UnauthorizedError
-    from . import responses
+    from . import chat, responses
     from .client import AsyncZerogpuApi, ZerogpuApi
     from .environment import ZerogpuApiEnvironment
     from .responses import CreateResponseRequestInput
 _dynamic_imports: typing.Dict[str, str] = {
     "AsyncZerogpuApi": ".client",
     "BadRequestError": ".errors",
+    "ChatCompletionResponse": ".types",
+    "ChatMessage": ".types",
+    "ChatMessageRole": ".types",
     "CreateResponseRequestInput": ".responses",
     "ErrorResponse": ".types",
     "ForbiddenError": ".errors",
@@ -41,6 +47,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "UnauthorizedError": ".errors",
     "ZerogpuApi": ".client",
     "ZerogpuApiEnvironment": ".environment",
+    "chat": ".chat",
     "responses": ".responses",
 }
 
@@ -69,6 +76,9 @@ def __dir__():
 __all__ = [
     "AsyncZerogpuApi",
     "BadRequestError",
+    "ChatCompletionResponse",
+    "ChatMessage",
+    "ChatMessageRole",
     "CreateResponseRequestInput",
     "ErrorResponse",
     "ForbiddenError",
@@ -85,5 +95,6 @@ __all__ = [
     "UnauthorizedError",
     "ZerogpuApi",
     "ZerogpuApiEnvironment",
+    "chat",
     "responses",
 ]

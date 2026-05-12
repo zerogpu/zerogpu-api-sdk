@@ -19,6 +19,8 @@ export interface CreateResponseRequest {
      */
     input: CreateResponseRequest.Input;
     text?: ZerogpuApi.TextResponseConfig;
+    /** Optional model-specific parameters (e.g. PII `mask`, `usecase`). Omit when not required. */
+    metadata?: Record<string, unknown>;
 }
 
 export namespace CreateResponseRequest {

@@ -34,6 +34,7 @@ class ResponsesClient:
         model: str,
         input: CreateResponseRequestInput,
         text: typing.Optional[TextResponseConfig] = OMIT,
+        metadata: typing.Optional[typing.Dict[str, typing.Any]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Response:
         """
@@ -48,6 +49,9 @@ class ResponsesClient:
             required by your model; see [docs](https://docs.zerogpu.ai/api-reference/endpoint/responses).
 
         text : typing.Optional[TextResponseConfig]
+
+        metadata : typing.Optional[typing.Dict[str, typing.Any]]
+            Optional model-specific parameters (e.g. PII `mask`, `usecase`). Omit when not required.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -71,7 +75,7 @@ class ResponsesClient:
         )
         """
         _response = self._raw_client.create_response(
-            model=model, input=input, text=text, request_options=request_options
+            model=model, input=input, text=text, metadata=metadata, request_options=request_options
         )
         return _response.data
 
@@ -97,6 +101,7 @@ class AsyncResponsesClient:
         model: str,
         input: CreateResponseRequestInput,
         text: typing.Optional[TextResponseConfig] = OMIT,
+        metadata: typing.Optional[typing.Dict[str, typing.Any]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Response:
         """
@@ -111,6 +116,9 @@ class AsyncResponsesClient:
             required by your model; see [docs](https://docs.zerogpu.ai/api-reference/endpoint/responses).
 
         text : typing.Optional[TextResponseConfig]
+
+        metadata : typing.Optional[typing.Dict[str, typing.Any]]
+            Optional model-specific parameters (e.g. PII `mask`, `usecase`). Omit when not required.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -142,6 +150,6 @@ class AsyncResponsesClient:
         asyncio.run(main())
         """
         _response = await self._raw_client.create_response(
-            model=model, input=input, text=text, request_options=request_options
+            model=model, input=input, text=text, metadata=metadata, request_options=request_options
         )
         return _response.data

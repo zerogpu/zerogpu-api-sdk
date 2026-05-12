@@ -1,3 +1,5 @@
+export * from "./ChatCompletionResponse.js";
+export * from "./ChatMessage.js";
 export * from "./ErrorResponse.js";
 export * from "./InputMessage.js";
 export * from "./OutputContentBlock.js";

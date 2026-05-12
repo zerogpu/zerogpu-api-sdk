@@ -55,6 +55,8 @@ The OpenAPI spec models `input` as **either** a non-empty **string** **or** a no
 
 Full spec: [Responses API](https://docs.zerogpu.ai/api-reference/endpoint/responses).
 
+**Also supported in the generated clients:** `POST /v1/chat/completions` via `client.chat` (Python: `client.chat`) for models that use the chat-completions route. Optional **`metadata`** on `POST /v1/responses` is included in `CreateResponseRequest` for model-specific options (e.g. PII).
+
 ---
 
 ## For maintainers: regenerating clients

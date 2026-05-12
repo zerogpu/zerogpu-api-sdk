@@ -6,6 +6,9 @@ import typing
 from importlib import import_module
 
 if typing.TYPE_CHECKING:
+    from .chat_completion_response import ChatCompletionResponse
+    from .chat_message import ChatMessage
+    from .chat_message_role import ChatMessageRole
     from .error_response import ErrorResponse
     from .input_message import InputMessage
     from .input_message_role import InputMessageRole
@@ -16,6 +19,9 @@ if typing.TYPE_CHECKING:
     from .text_response_config_format import TextResponseConfigFormat
     from .token_usage import TokenUsage
 _dynamic_imports: typing.Dict[str, str] = {
+    "ChatCompletionResponse": ".chat_completion_response",
+    "ChatMessage": ".chat_message",
+    "ChatMessageRole": ".chat_message_role",
     "ErrorResponse": ".error_response",
     "InputMessage": ".input_message",
     "InputMessageRole": ".input_message_role",
@@ -50,6 +56,9 @@ def __dir__():
 
 
 __all__ = [
+    "ChatCompletionResponse",
+    "ChatMessage",
+    "ChatMessageRole",
     "ErrorResponse",
     "InputMessage",
     "InputMessageRole",

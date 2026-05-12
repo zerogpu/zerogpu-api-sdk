@@ -35,6 +35,7 @@ class RawResponsesClient:
         model: str,
         input: CreateResponseRequestInput,
         text: typing.Optional[TextResponseConfig] = OMIT,
+        metadata: typing.Optional[typing.Dict[str, typing.Any]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[Response]:
         """
@@ -49,6 +50,9 @@ class RawResponsesClient:
             required by your model; see [docs](https://docs.zerogpu.ai/api-reference/endpoint/responses).
 
         text : typing.Optional[TextResponseConfig]
+
+        metadata : typing.Optional[typing.Dict[str, typing.Any]]
+            Optional model-specific parameters (e.g. PII `mask`, `usecase`). Omit when not required.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -69,6 +73,7 @@ class RawResponsesClient:
                 "text": convert_and_respect_annotation_metadata(
                     object_=text, annotation=TextResponseConfig, direction="write"
                 ),
+                "metadata": metadata,
             },
             headers={
                 "content-type": "application/json",
@@ -161,6 +166,7 @@ class AsyncRawResponsesClient:
         model: str,
         input: CreateResponseRequestInput,
         text: typing.Optional[TextResponseConfig] = OMIT,
+        metadata: typing.Optional[typing.Dict[str, typing.Any]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[Response]:
         """
@@ -175,6 +181,9 @@ class AsyncRawResponsesClient:
             required by your model; see [docs](https://docs.zerogpu.ai/api-reference/endpoint/responses).
 
         text : typing.Optional[TextResponseConfig]
+
+        metadata : typing.Optional[typing.Dict[str, typing.Any]]
+            Optional model-specific parameters (e.g. PII `mask`, `usecase`). Omit when not required.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -195,6 +204,7 @@ class AsyncRawResponsesClient:
                 "text": convert_and_respect_annotation_metadata(
                     object_=text, annotation=TextResponseConfig, direction="write"
                 ),
+                "metadata": metadata,
             },
             headers={
                 "content-type": "application/json",
