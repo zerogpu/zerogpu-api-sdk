@@ -43,19 +43,9 @@ npm run smoke
 
 Do not commit secrets. See `typescript-smoke/smoke.ts` for optional `ZEROGPU_API_URL` behavior.
 
-### Production input shape note
+### `input` shape (OpenAPI + SDKs)
 
-For current production models on `POST /v1/responses`, `input` is typically sent as a plain string:
-
-```json
-{
-  "model": "zlm-v1-followup-questions-edge",
-  "input": "In one short sentence, what is a habit tracker?",
-  "text": { "format": { "type": "text" } }
-}
-```
-
-Use model-specific payloads from [docs.zerogpu.ai](https://docs.zerogpu.ai) if a model requires a different format.
+The OpenAPI spec models `input` as **either** a non-empty **string** **or** a non-empty **array** of `role` / `content` messages, matching what production accepts. Regenerate clients with Fern after changing `specs/zerogpu.openapi.yaml`.
 
 ## `POST /v1/responses` (reminder)
 

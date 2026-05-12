@@ -35,10 +35,7 @@ export class ResponsesClient {
      * @example
      *     await client.responses.createResponse({
      *         model: "model",
-     *         input: [{
-     *                 role: "user",
-     *                 content: "content"
-     *             }]
+     *         input: "input"
      *     })
      */
     public createResponse(

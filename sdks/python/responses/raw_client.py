@@ -16,9 +16,9 @@ from ..errors.internal_server_error import InternalServerError
 from ..errors.method_failure_error import MethodFailureError
 from ..errors.unauthorized_error import UnauthorizedError
 from ..types.error_response import ErrorResponse
-from ..types.input_message import InputMessage
 from ..types.response import Response
 from ..types.text_response_config import TextResponseConfig
+from .types.create_response_request_input import CreateResponseRequestInput
 from pydantic import ValidationError
 
 # this is used as the default value for optional parameters
@@ -33,7 +33,7 @@ class RawResponsesClient:
         self,
         *,
         model: str,
-        input: typing.Sequence[InputMessage],
+        input: CreateResponseRequestInput,
         text: typing.Optional[TextResponseConfig] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[Response]:
@@ -43,7 +43,10 @@ class RawResponsesClient:
         model : str
             Model identifier from the ZeroGPU dashboard (e.g. summarization or IAB classify).
 
-        input : typing.Sequence[InputMessage]
+        input : CreateResponseRequestInput
+            Model-dependent input. Many production models accept a **plain string**.
+            Others accept a **chat-style message list** (`role` + `content`). Use the shape
+            required by your model; see [docs](https://docs.zerogpu.ai/api-reference/endpoint/responses).
 
         text : typing.Optional[TextResponseConfig]
 
@@ -61,7 +64,7 @@ class RawResponsesClient:
             json={
                 "model": model,
                 "input": convert_and_respect_annotation_metadata(
-                    object_=input, annotation=typing.Sequence[InputMessage], direction="write"
+                    object_=input, annotation=CreateResponseRequestInput, direction="write"
                 ),
                 "text": convert_and_respect_annotation_metadata(
                     object_=text, annotation=TextResponseConfig, direction="write"
@@ -156,7 +159,7 @@ class AsyncRawResponsesClient:
         self,
         *,
         model: str,
-        input: typing.Sequence[InputMessage],
+        input: CreateResponseRequestInput,
         text: typing.Optional[TextResponseConfig] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[Response]:
@@ -166,7 +169,10 @@ class AsyncRawResponsesClient:
         model : str
             Model identifier from the ZeroGPU dashboard (e.g. summarization or IAB classify).
 
-        input : typing.Sequence[InputMessage]
+        input : CreateResponseRequestInput
+            Model-dependent input. Many production models accept a **plain string**.
+            Others accept a **chat-style message list** (`role` + `content`). Use the shape
+            required by your model; see [docs](https://docs.zerogpu.ai/api-reference/endpoint/responses).
 
         text : typing.Optional[TextResponseConfig]
 
@@ -184,7 +190,7 @@ class AsyncRawResponsesClient:
             json={
                 "model": model,
                 "input": convert_and_respect_annotation_metadata(
-                    object_=input, annotation=typing.Sequence[InputMessage], direction="write"
+                    object_=input, annotation=CreateResponseRequestInput, direction="write"
                 ),
                 "text": convert_and_respect_annotation_metadata(
                     object_=text, annotation=TextResponseConfig, direction="write"

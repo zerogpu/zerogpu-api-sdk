@@ -21,9 +21,11 @@ if typing.TYPE_CHECKING:
     from . import responses
     from .client import AsyncZerogpuApi, ZerogpuApi
     from .environment import ZerogpuApiEnvironment
+    from .responses import CreateResponseRequestInput
 _dynamic_imports: typing.Dict[str, str] = {
     "AsyncZerogpuApi": ".client",
     "BadRequestError": ".errors",
+    "CreateResponseRequestInput": ".responses",
     "ErrorResponse": ".types",
     "ForbiddenError": ".errors",
     "InputMessage": ".types",
@@ -67,6 +69,7 @@ def __dir__():
 __all__ = [
     "AsyncZerogpuApi",
     "BadRequestError",
+    "CreateResponseRequestInput",
     "ErrorResponse",
     "ForbiddenError",
     "InputMessage",

@@ -6,15 +6,29 @@ import type * as ZerogpuApi from "../../../../index.js";
  * @example
  *     {
  *         model: "model",
- *         input: [{
- *                 role: "user",
- *                 content: "content"
- *             }]
+ *         input: "input"
  *     }
  */
 export interface CreateResponseRequest {
     /** Model identifier from the ZeroGPU dashboard (e.g. summarization or IAB classify). */
     model: string;
-    input: ZerogpuApi.InputMessage[];
+    /**
+     * Model-dependent input. Many production models accept a **plain string**.
+     * Others accept a **chat-style message list** (`role` + `content`). Use the shape
+     * required by your model; see [docs](https://docs.zerogpu.ai/api-reference/endpoint/responses).
+     */
+    input: CreateResponseRequest.Input;
     text?: ZerogpuApi.TextResponseConfig;
+}
+
+export namespace CreateResponseRequest {
+    /**
+     * Model-dependent input. Many production models accept a **plain string**.
+     * Others accept a **chat-style message list** (`role` + `content`). Use the shape
+     * required by your model; see [docs](https://docs.zerogpu.ai/api-reference/endpoint/responses).
+     */
+    export type Input =
+        /**
+         * Plain text prompt or document text. */
+        string | ZerogpuApi.InputMessage[];
 }

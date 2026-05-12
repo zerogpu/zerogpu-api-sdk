@@ -8,7 +8,7 @@
  *
  * Optional:
  *   ZEROGPU_API_URL — e.g. https://api.zerogpu.ai/v1/responses or https://dev.api.zerogpu.ai/v1/responses (must match key/project environment)
- *   ZEROGPU_MESSAGE_INPUT=1 — send `input` as chat messages (OpenAPI shape). Default is a plain string `input` (current production API).
+ *   ZEROGPU_MESSAGE_INPUT=1 — send `input` as chat messages. Default is a plain string `input` (common for production models).
  *   ZEROGPU_INPUT_TEXT — override the default prompt / user text
  *
  * Loads .env from this folder, then ../../Benchmark/.env if present.
@@ -76,32 +76,30 @@ async function main() {
     environment: apiBaseUrlFromEnv(),
   });
 
-  /** Production `/v1/responses` expects `input` as a string; the generated OpenAPI types still allow message arrays. */
   const useMessageInput = process.env.ZEROGPU_MESSAGE_INPUT === "1";
 
-  const body: CreateResponseRequest | (Omit<CreateResponseRequest, "input"> & { input: string }) =
-    useMessageInput
-      ? {
-          model,
-          input: [
-            {
-              role: "user",
-              content:
-                process.env.ZEROGPU_INPUT_TEXT?.trim() ||
-                "In one short sentence, what is a habit tracker?",
-            },
-          ],
-          text: { format: { type: "text" } },
-        }
-      : {
-          model,
-          input:
-            process.env.ZEROGPU_INPUT_TEXT?.trim() ||
-            "In one short sentence, what is a habit tracker?",
-          text: { format: { type: "text" } },
-        };
+  const body: CreateResponseRequest = useMessageInput
+    ? {
+        model,
+        input: [
+          {
+            role: "user",
+            content:
+              process.env.ZEROGPU_INPUT_TEXT?.trim() ||
+              "In one short sentence, what is a habit tracker?",
+          },
+        ],
+        text: { format: { type: "text" } },
+      }
+    : {
+        model,
+        input:
+          process.env.ZEROGPU_INPUT_TEXT?.trim() ||
+          "In one short sentence, what is a habit tracker?",
+        text: { format: { type: "text" } },
+      };
 
-  const res = await client.responses.createResponse(body as CreateResponseRequest);
+  const res = await client.responses.createResponse(body);
 
   console.log("id:", res.id);
   console.log("model:", res.model);

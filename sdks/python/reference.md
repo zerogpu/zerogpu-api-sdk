@@ -13,7 +13,7 @@
 <dd>
 
 ```python
-from zerogpu import ZerogpuApi, InputMessage
+from zerogpu import ZerogpuApi
 from zerogpu.environment import ZerogpuApiEnvironment
 
 client = ZerogpuApi(
@@ -24,12 +24,7 @@ client = ZerogpuApi(
 
 client.responses.create_response(
     model="model",
-    input=[
-        InputMessage(
-            role="user",
-            content="content",
-        )
-    ],
+    input="input",
 )
 
 ```
@@ -54,7 +49,11 @@ client.responses.create_response(
 <dl>
 <dd>
 
-**input:** `typing.List[InputMessage]` 
+**input:** `CreateResponseRequestInput` 
+
+Model-dependent input. Many production models accept a **plain string**.
+Others accept a **chat-style message list** (`role` + `content`). Use the shape
+required by your model; see [docs](https://docs.zerogpu.ai/api-reference/endpoint/responses).
     
 </dd>
 </dl>

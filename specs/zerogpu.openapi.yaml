@@ -71,9 +71,18 @@ components:
           type: string
           description: Model identifier from the ZeroGPU dashboard (e.g. summarization or IAB classify).
         input:
-          type: array
-          items:
-            $ref: "#/components/schemas/InputMessage"
+          description: |
+            Model-dependent input. Many production models accept a **plain string**.
+            Others accept a **chat-style message list** (`role` + `content`). Use the shape
+            required by your model; see [docs](https://docs.zerogpu.ai/api-reference/endpoint/responses).
+          oneOf:
+            - type: string
+              minLength: 1
+              description: Plain text prompt or document text.
+            - type: array
+              minItems: 1
+              items:
+                $ref: "#/components/schemas/InputMessage"
         text:
           $ref: "#/components/schemas/TextResponseConfig"
 

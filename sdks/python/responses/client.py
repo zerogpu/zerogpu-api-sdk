@@ -4,10 +4,10 @@ import typing
 
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
-from ..types.input_message import InputMessage
 from ..types.response import Response
 from ..types.text_response_config import TextResponseConfig
 from .raw_client import AsyncRawResponsesClient, RawResponsesClient
+from .types.create_response_request_input import CreateResponseRequestInput
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -32,7 +32,7 @@ class ResponsesClient:
         self,
         *,
         model: str,
-        input: typing.Sequence[InputMessage],
+        input: CreateResponseRequestInput,
         text: typing.Optional[TextResponseConfig] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Response:
@@ -42,7 +42,10 @@ class ResponsesClient:
         model : str
             Model identifier from the ZeroGPU dashboard (e.g. summarization or IAB classify).
 
-        input : typing.Sequence[InputMessage]
+        input : CreateResponseRequestInput
+            Model-dependent input. Many production models accept a **plain string**.
+            Others accept a **chat-style message list** (`role` + `content`). Use the shape
+            required by your model; see [docs](https://docs.zerogpu.ai/api-reference/endpoint/responses).
 
         text : typing.Optional[TextResponseConfig]
 
@@ -56,7 +59,7 @@ class ResponsesClient:
 
         Examples
         --------
-        from zerogpu import InputMessage, ZerogpuApi
+        from zerogpu import ZerogpuApi
 
         client = ZerogpuApi(
             project_id="YOUR_PROJECT_ID",
@@ -64,12 +67,7 @@ class ResponsesClient:
         )
         client.responses.create_response(
             model="model",
-            input=[
-                InputMessage(
-                    role="user",
-                    content="content",
-                )
-            ],
+            input="input",
         )
         """
         _response = self._raw_client.create_response(
@@ -97,7 +95,7 @@ class AsyncResponsesClient:
         self,
         *,
         model: str,
-        input: typing.Sequence[InputMessage],
+        input: CreateResponseRequestInput,
         text: typing.Optional[TextResponseConfig] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Response:
@@ -107,7 +105,10 @@ class AsyncResponsesClient:
         model : str
             Model identifier from the ZeroGPU dashboard (e.g. summarization or IAB classify).
 
-        input : typing.Sequence[InputMessage]
+        input : CreateResponseRequestInput
+            Model-dependent input. Many production models accept a **plain string**.
+            Others accept a **chat-style message list** (`role` + `content`). Use the shape
+            required by your model; see [docs](https://docs.zerogpu.ai/api-reference/endpoint/responses).
 
         text : typing.Optional[TextResponseConfig]
 
@@ -123,7 +124,7 @@ class AsyncResponsesClient:
         --------
         import asyncio
 
-        from zerogpu import AsyncZerogpuApi, InputMessage
+        from zerogpu import AsyncZerogpuApi
 
         client = AsyncZerogpuApi(
             project_id="YOUR_PROJECT_ID",
@@ -134,12 +135,7 @@ class AsyncResponsesClient:
         async def main() -> None:
             await client.responses.create_response(
                 model="model",
-                input=[
-                    InputMessage(
-                        role="user",
-                        content="content",
-                    )
-                ],
+                input="input",
             )
 
 
