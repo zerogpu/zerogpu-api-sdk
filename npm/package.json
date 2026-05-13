@@ -1,7 +1,7 @@
 {
   "name": "zerogpu-api",
   "version": "0.1.4",
-  "description": "Official ZeroGPU API client (Responses + Chat Completions)",
+  "description": "Official ZeroGPU API TypeScript client (Responses + Chat Completions). Published from ZeroGPU API SDKs.",
   "license": "MIT",
   "homepage": "https://docs.zerogpu.ai",
   "repository": {

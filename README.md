@@ -1,6 +1,39 @@
-# ZeroGPU SDK
+<p align="center">
+  <img src="https://zerogpu.ai/assets/zerogpu-icon-dark-DB2Jfxq2.png" alt="ZeroGPU" width="160"/>
+</p>
 
-Official API client libraries for [ZeroGPU](https://zerogpu.ai). Use them to call `POST /v1/responses` with your API key and project id.
+<h1 align="center">ZeroGPU API SDKs</h1>
+
+<p align="center">
+  <strong>Official API clients for <a href="https://zerogpu.ai">ZeroGPU</a>.</strong><br/>
+  Call <code>POST /v1/responses</code> and <code>POST /v1/chat/completions</code> with typed helpers — publishable packages on <a href="https://www.npmjs.com/package/zerogpu-api">npm</a> (<code>zerogpu-api</code>) and <a href="https://pypi.org/project/zerogpu-api/">PyPI</a> (<code>pip install zerogpu-api</code> → import <code>zerogpu</code>).
+</p>
+
+<p align="center">
+  <a href="https://platform.zerogpu.ai">
+    <img src="https://img.shields.io/badge/Platform-Dashboard-22c55e?style=for-the-badge" alt="Open ZeroGPU platform" />
+  </a>
+  &nbsp;
+  <a href="https://www.zerogpu.ai">
+    <img src="https://img.shields.io/badge/Main-Website-22c55e?style=for-the-badge" alt="Open ZeroGPU website" />
+  </a>
+  &nbsp;
+  <a href="https://docs.zerogpu.ai">
+    <img src="https://img.shields.io/badge/Docs-docs.zerogpu.ai-111827?style=for-the-badge" alt="ZeroGPU documentation" />
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/zerogpu/SDK/stargazers"><img src="https://img.shields.io/github/stars/zerogpu/SDK?style=flat-square" alt="GitHub stars" /></a>
+  <a href="https://www.npmjs.com/package/zerogpu-api"><img src="https://img.shields.io/npm/v/zerogpu-api?style=flat-square" alt="npm version" /></a>
+  <a href="https://pypi.org/project/zerogpu-api/"><img src="https://img.shields.io/pypi/v/zerogpu-api?style=flat-square" alt="PyPI version" /></a>
+  <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="License" />
+  <a href="https://github.com/zerogpu/zerogpu-router"><img src="https://img.shields.io/badge/Related-Router-111827?style=flat-square" alt="ZeroGPU Router" /></a>
+</p>
+
+---
+
+**ZeroGPU API SDKs** are the official API client libraries for [ZeroGPU](https://zerogpu.ai). Use them to call `POST /v1/responses` with your API key and project id.
 
 **API reference and guides:** [docs.zerogpu.ai](https://docs.zerogpu.ai) (authentication, models, error codes).
 
@@ -20,7 +53,7 @@ Clients live under `sdks/`:
 | `sdks/php/sdk` | PHP |
 | `sdks/swift/sdk` | Swift |
 
-When you publish packages to npm, PyPI, crates.io, etc., point users at those registries and [docs.zerogpu.ai](https://docs.zerogpu.ai); most developers do not need this repo’s internals.
+When you publish packages to npm, PyPI, crates.io, etc., point users at those registries and [docs.zerogpu.ai](https://docs.zerogpu.ai); most developers do not need the internals of the **ZeroGPU API SDKs** repository.
 
 ## Quick start (local checkout)
 
@@ -71,7 +104,7 @@ See Fern’s [SDK quickstart](https://buildwithfern.com/learn/sdks/overview/quic
 
 ### Publishing to npm and PyPI (recommended)
 
-This repo ships **standalone packages** that do not rely on Fern’s paid registry flow:
+**ZeroGPU API SDKs** ship **standalone packages** that do not rely on Fern’s paid registry flow:
 
 | Path | Registry | Package name (change if taken) |
 |------|----------|----------------------------------|

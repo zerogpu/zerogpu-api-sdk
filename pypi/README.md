@@ -1,6 +1,6 @@
 # zerogpu-api (Python SDK)
 
-Official Python SDK for the ZeroGPU API: **`POST /v1/responses`** and **`POST /v1/chat/completions`**, with `x-api-key` and `x-project-id` on every request.
+Official Python client for the ZeroGPU API: **`POST /v1/responses`** and **`POST /v1/chat/completions`**, with `x-api-key` and `x-project-id` on every request. Published from [**ZeroGPU API SDKs**](https://github.com/zerogpu/SDK) (`pypi/` in that repository).
 
 ## Install
 
