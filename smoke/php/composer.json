@@ -1,0 +1,21 @@
+{
+  "name": "zerogpu/smoke-php",
+  "description": "Live SDK smoke test",
+  "type": "project",
+  "require": {
+    "php": "^8.1",
+    "zerogpu/zerogpu": "*"
+  },
+  "repositories": [
+    {
+      "type": "path",
+      "url": "../../sdks/php/sdk",
+      "options": { "symlink": true }
+    }
+  ],
+  "config": {
+    "allow-plugins": {
+      "php-http/discovery": true
+    }
+  }
+}

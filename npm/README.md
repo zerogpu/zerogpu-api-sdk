@@ -59,7 +59,8 @@ console.log(completion);
 
 - `ZEROGPU_API_KEY`
 - `ZEROGPU_PROJECT_ID`
-- `ZEROGPU_API_URL` — optional override only; if unset, the client uses production `https://api.zerogpu.ai/v1`
+
+The client always calls production `https://api.zerogpu.ai/v1`; there is no URL environment variable.
 
 ## API reference
 

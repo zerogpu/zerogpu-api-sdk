@@ -1,0 +1,6 @@
+go 1.21
+
+use (
+	./sdks/go
+	./smoke/go
+)

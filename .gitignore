@@ -5,3 +5,12 @@ node_modules/
 !.env.example
 **/.preview
 **/.definition
+smoke/rust/target/
+smoke/csharp/**/bin/
+smoke/csharp/**/obj/
+smoke/java/target/
+smoke/php/vendor/
+smoke/ruby/.bundle/
+smoke/swift/.build/
+__pycache__/
+*.py[cod]

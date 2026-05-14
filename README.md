@@ -61,12 +61,13 @@ Environment variables (same as the [dashboard](https://zerogpu.ai) snippets):
 
 - `ZEROGPU_API_KEY`
 - `ZEROGPU_PROJECT_ID`
-- `ZEROGPU_API_URL` is optional and override-only. If unset, clients default to production: `https://api.zerogpu.ai/v1`
 
-**Smoke test (TypeScript)** — verifies a live request with the generated client:
+Clients always use the production API base URL `https://api.zerogpu.ai/v1`. There is no environment variable to change it.
+
+**Smoke tests** — one live `POST /v1/responses` per generated SDK; see [`smoke/README.md`](./smoke/README.md). TypeScript example:
 
 ```bash
-cd typescript-smoke
+cd smoke/typescript
 npm install
 export ZEROGPU_API_KEY=…
 export ZEROGPU_PROJECT_ID=…
@@ -74,7 +75,9 @@ export ZEROGPU_MODEL=…   # from your dashboard
 npm run smoke
 ```
 
-Do not commit secrets. See `typescript-smoke/smoke.ts` for optional `ZEROGPU_API_URL` behavior.
+Go uses the repo [`go.work`](./go.work) so builds resolve the `sdk` module; from the **Fern SDK** directory run `go run -C smoke/go .` (after exporting the same variables).
+
+Do not commit secrets.
 
 ### `input` shape (OpenAPI + SDKs)
 
@@ -145,7 +148,8 @@ After regenerating Python with Fern, run **`sync-pypi-from-sdks.sh`** so `pypi/s
 | `npm/` | npm package (`tsup` bundles `sdks/typescript`) |
 | `pypi/` | PyPI package (`src/zerogpu` synced from `sdks/python`) |
 | `scripts/sync-pypi-from-sdks.sh` | Refresh Python package after Fern regen |
-| `typescript-smoke/` | Local smoke test for the TS client |
+| `go.work` | Go workspace linking `sdks/go` and `smoke/go` for smoke runs |
+| `smoke/` | Live-request smoke tests per SDK (see `smoke/README.md`) |
 
 ## License
 
