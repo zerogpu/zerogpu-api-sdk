@@ -31,6 +31,10 @@
   <a href="https://github.com/zerogpu/zerogpu-router"><img src="https://img.shields.io/badge/Related-Router-111827?style=flat-square" alt="ZeroGPU Router" /></a>
 </p>
 
+<p align="center">
+  <img src="assets/zerogpu%20-%20sdk%20gif.gif" alt="ZeroGPU API SDKs — dashboard and integration preview" width="720"/>
+</p>
+
 ---
 
 **ZeroGPU API SDKs** are the official API client libraries for [ZeroGPU](https://zerogpu.ai). Use them to call `POST /v1/responses` with your API key and project id.
