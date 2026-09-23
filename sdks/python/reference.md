@@ -18,7 +18,6 @@ from zerogpu.environment import ZerogpuApiEnvironment
 
 client = ZerogpuApi(
     api_key="<value>",
-    project_id="<x-project-id>",
     environment=ZerogpuApiEnvironment.PRODUCTION,
 )
 
@@ -108,7 +107,6 @@ from zerogpu.environment import ZerogpuApiEnvironment
 
 client = ZerogpuApi(
     api_key="<value>",
-    project_id="<x-project-id>",
     environment=ZerogpuApiEnvironment.PRODUCTION,
 )
 

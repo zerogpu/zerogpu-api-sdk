@@ -3,7 +3,5 @@ node_modules/
 .env
 .env.*
 !.env.example
-**/.preview
-**/.definition
 __pycache__/
 *.py[cod]

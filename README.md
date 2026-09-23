@@ -37,7 +37,7 @@
 
 ---
 
-**ZeroGPU API SDKs** are the official API client libraries for [ZeroGPU](https://zerogpu.ai). Use them to call `POST /v1/responses` with your API key and project id.
+**ZeroGPU API SDKs** are the official API client libraries for [ZeroGPU](https://zerogpu.ai). Use them to call `POST /v1/responses` with your API key.
 
 **API reference and guides:** [docs.zerogpu.ai](https://docs.zerogpu.ai) (authentication, models, error codes).
 
@@ -53,7 +53,6 @@
 Environment variables (same as the [dashboard](https://zerogpu.ai) snippets):
 
 - `ZEROGPU_API_KEY`
-- `ZEROGPU_PROJECT_ID`
 
 Clients always use the production API base URL `https://api.zerogpu.ai/v1`. There is no environment variable to change it.
 
@@ -63,7 +62,6 @@ Clients always use the production API base URL `https://api.zerogpu.ai/v1`. Ther
 cd smoke/typescript
 npm install
 export ZEROGPU_API_KEY=…
-export ZEROGPU_PROJECT_ID=…
 export ZEROGPU_MODEL=…   # from your dashboard
 npm run smoke
 ```
@@ -72,33 +70,25 @@ Do not commit secrets.
 
 ### `input` shape (OpenAPI + SDKs)
 
-The OpenAPI spec models `input` as **either** a non-empty **string** **or** a non-empty **array** of `role` / `content` messages, matching what production accepts. Regenerate clients with Fern after changing `specs/zerogpu.openapi.yaml`.
+The OpenAPI spec models `input` as **either** a non-empty **string** **or** a non-empty **array** of `role` / `content` messages, matching what production accepts.
 
 ## `POST /v1/responses` (reminder)
 
 - **Production base URL:** `https://api.zerogpu.ai/v1`
 - **Path:** `/responses`
-- **Headers:** `x-api-key`, `x-project-id`, `content-type: application/json`
+- **Headers:** `x-api-key`, `content-type: application/json`
 
 Full spec: [Responses API](https://docs.zerogpu.ai/api-reference/endpoint/responses).
 
-**Also supported in the generated clients:** `POST /v1/chat/completions` via `client.chat` (Python: `client.chat`) for models that use the chat-completions route. Optional **`metadata`** on `POST /v1/responses` is included in `CreateResponseRequest` for model-specific options (e.g. PII).
+**Also supported:** `POST /v1/chat/completions` via `client.chat` (Python: `client.chat`) for models that use the chat-completions route. Optional **`metadata`** on `POST /v1/responses` is included in `CreateResponseRequest` for model-specific options (e.g. PII).
 
 ---
 
-## For maintainers: regenerating clients
+## For maintainers
 
-SDKs are generated from `specs/zerogpu.openapi.yaml` using [Fern](https://buildwithfern.com/). To update or rebuild:
+The clients in `sdks/typescript` and `sdks/python` are maintained by hand. When the API changes, update `specs/zerogpu.openapi.yaml` and both clients together, then run `./scripts/sync-pypi-from-sdks.sh`.
 
-1. Edit the OpenAPI file if the API changed.
-2. Run `npx fern-api check` from the `fern/` directory (or repo root with paths adjusted).
-3. Run `npx fern-api generate` (after `fern login` or with `FERN_TOKEN`). Generator groups and output paths are in `fern/generators.yml`.
-
-See Fern’s [SDK quickstart](https://buildwithfern.com/learn/sdks/overview/quickstart) for CLI install details.
-
-### Publishing to npm and PyPI (recommended)
-
-**ZeroGPU API SDKs** ship **standalone packages** that do not rely on Fern’s paid registry flow:
+### Publishing to npm and PyPI
 
 | Path | Registry | Package name (change if taken) |
 |------|----------|----------------------------------|
@@ -117,7 +107,7 @@ npm publish --access public
 **PyPI** — use a [venv](https://docs.python.org/3/library/venv.html) and [PyPI API token](https://pypi.org/manage/account/token/):
 
 ```bash
-./scripts/sync-pypi-from-sdks.sh   # after `fern generate` updates sdks/python
+./scripts/sync-pypi-from-sdks.sh   # copy sdks/python into pypi/src/zerogpu
 cd pypi
 python -m venv .venv && . .venv/bin/activate
 pip install build twine
@@ -125,20 +115,15 @@ python -m build
 twine upload dist/*
 ```
 
-After regenerating Python with Fern, run **`sync-pypi-from-sdks.sh`** so `pypi/src/zerogpu` stays in sync with `sdks/python`.
-
-**Optional:** Fern can also publish directly from `generators.yml` ([npm](https://buildwithfern.com/learn/sdks/generators/typescript/publishing), [PyPI](https://buildwithfern.com/learn/sdks/generators/python/publishing)); you don’t need that if you use `npm/` and `pypi/` above.
-
 ## Repository layout
 
 | Path | Description |
 |------|-------------|
-| `specs/zerogpu.openapi.yaml` | API definition used for generation |
-| `fern/` | Fern configuration |
-| `sdks/` | Generated TypeScript and Python clients (do not hand-edit; regenerate) |
+| `specs/zerogpu.openapi.yaml` | OpenAPI reference for the API |
+| `sdks/` | TypeScript and Python client source |
 | `npm/` | npm package (`tsup` bundles `sdks/typescript`) |
 | `pypi/` | PyPI package (`src/zerogpu` synced from `sdks/python`) |
-| `scripts/sync-pypi-from-sdks.sh` | Refresh Python package after Fern regen |
+| `scripts/sync-pypi-from-sdks.sh` | Copy `sdks/python` into the PyPI package |
 | `smoke/` | Live-request smoke tests for TypeScript and Python (see `smoke/README.md`) |
 
 ## License

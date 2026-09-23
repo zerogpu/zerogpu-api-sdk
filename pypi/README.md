@@ -1,6 +1,6 @@
 # zerogpu-api (Python SDK)
 
-Official Python client for the ZeroGPU API: **`POST /v1/responses`** and **`POST /v1/chat/completions`**, with `x-api-key` and `x-project-id` on every request. Published from [**ZeroGPU API SDKs**](https://github.com/zerogpu/SDK) (`pypi/` in that repository).
+Official Python client for the ZeroGPU API: **`POST /v1/responses`** and **`POST /v1/chat/completions`**, authenticated with your API key (`x-api-key` header). Published from [**ZeroGPU API SDKs**](https://github.com/zerogpu/SDK) (`pypi/` in that repository).
 
 ## Install
 
@@ -18,7 +18,6 @@ from zerogpu import ZerogpuApi
 
 client = ZerogpuApi(
     api_key=os.environ["ZEROGPU_API_KEY"],
-    project_id=os.environ["ZEROGPU_PROJECT_ID"],
 )
 
 response = client.responses.create_response(

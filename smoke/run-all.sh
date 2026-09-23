@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Run every smoke test for which the host has the toolchain.
-# Usage: from Fern SDK/: ./smoke/run-all.sh
+# Usage: from repo root: ./smoke/run-all.sh
 set -u
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"

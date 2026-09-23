@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# After regenerating sdks/python (e.g. fern generate), sync into the PyPI package tree.
+# After editing sdks/python, sync it into the PyPI package tree.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 rm -rf "${ROOT}/pypi/src/zerogpu"

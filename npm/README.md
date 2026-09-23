@@ -1,6 +1,6 @@
 # zerogpu-api
 
-Official ZeroGPU API client for Node.js and TypeScript. Covers **`POST /v1/responses`** and **`POST /v1/chat/completions`** with the same headers (`x-api-key`, `x-project-id`).
+Official ZeroGPU API client for Node.js and TypeScript. Covers **`POST /v1/responses`** and **`POST /v1/chat/completions`** authenticated with your API key (`x-api-key` header).
 
 ## Install
 
@@ -17,7 +17,6 @@ import { ZerogpuApiClient } from "zerogpu-api";
 
 const client = new ZerogpuApiClient({
   apiKey: process.env.ZEROGPU_API_KEY!,
-  projectId: process.env.ZEROGPU_PROJECT_ID!,
 });
 
 const response = await client.responses.createResponse({
@@ -58,7 +57,6 @@ console.log(completion);
 ## Environment variables
 
 - `ZEROGPU_API_KEY`
-- `ZEROGPU_PROJECT_ID`
 
 The client always calls production `https://api.zerogpu.ai/v1`; there is no URL environment variable.
 

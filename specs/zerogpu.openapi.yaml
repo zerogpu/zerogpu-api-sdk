@@ -4,7 +4,7 @@ info:
   version: "1.0"
   description: |
     REST API for ZeroGPU model inference: `POST /v1/responses` and `POST /v1/chat/completions` (model-dependent).
-    Authentication uses `x-api-key` and `x-project-id` headers on every request.
+    Authentication uses the `x-api-key` header on every request.
     Documentation: https://docs.zerogpu.ai
 servers:
   - url: https://api.zerogpu.ai/v1
@@ -12,7 +12,6 @@ servers:
 
 security:
   - ApiKey: []
-    ProjectId: []
 
 paths:
   /responses:
@@ -39,7 +38,7 @@ paths:
         "401":
           description: Unauthorized — invalid or missing API key
         "403":
-          description: Forbidden — invalid project ID or permissions
+          description: Forbidden — insufficient permissions
         "420":
           description: Input exceeds model token limit (context_length_exceeded)
           content:
@@ -73,7 +72,7 @@ paths:
         "401":
           description: Unauthorized — invalid or missing API key
         "403":
-          description: Forbidden — invalid project ID or permissions
+          description: Forbidden — insufficient permissions
         "420":
           description: Input exceeds model token limit (context_length_exceeded)
           content:
@@ -89,10 +88,6 @@ components:
       type: apiKey
       in: header
       name: x-api-key
-    ProjectId:
-      type: apiKey
-      in: header
-      name: x-project-id
 
   schemas:
     CreateResponseRequest:

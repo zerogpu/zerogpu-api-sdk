@@ -9,12 +9,11 @@ Set (or put in `smoke/<lang>/.env` or repo-root `Benchmark/.env` where supported
 | Variable | Required |
 |----------|----------|
 | `ZEROGPU_API_KEY` | Yes |
-| `ZEROGPU_PROJECT_ID` | Yes |
 | `ZEROGPU_MODEL` | Yes — dashboard model id |
 
 Optional: `ZEROGPU_INPUT_TEXT` — override prompt (where implemented).
 
-Python uses **`pypi/src/zerogpu`** (same as the PyPI package). After `fern generate`, run `./scripts/sync-pypi-from-sdks.sh` so `pypi/` matches `sdks/python`.
+Python uses **`pypi/src/zerogpu`** (same as the PyPI package). After editing `sdks/python`, run `./scripts/sync-pypi-from-sdks.sh` so `pypi/` matches.
 
 ## Run one language
 
