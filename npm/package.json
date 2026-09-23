@@ -1,7 +1,7 @@
 {
   "name": "zerogpu-api",
-  "version": "0.1.5",
-  "description": "Official ZeroGPU API TypeScript client (Responses + Chat Completions). Published from ZeroGPU API SDKs.",
+  "version": "1.0.0",
+  "description": "Official ZeroGPU API TypeScript client (responses, chat completions, moderations, embeddings, audio). Published from ZeroGPU API SDKs.",
   "license": "MIT",
   "homepage": "https://docs.zerogpu.ai",
   "repository": {
@@ -23,12 +23,17 @@
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "import": {
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/types-cjs/index.d.ts",
+        "default": "./dist/index.cjs"
+      }
     }
   },
   "files": [
@@ -36,7 +41,7 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "build": "tsup",
+    "build": "tsup && tsc -p tsconfig.build.json && node scripts/copy-cjs-types.mjs",
     "prepublishOnly": "npm run build"
   },
   "engines": {

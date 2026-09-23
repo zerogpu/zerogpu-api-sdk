@@ -1,9 +1,8 @@
 /**
- * Smoke test: one real call through the Fern-generated TypeScript SDK.
+ * Smoke test: one real call through the TypeScript SDK in sdks/typescript.
  *
  * Credentials (same as Benchmark):
  *   ZEROGPU_API_KEY
- *   ZEROGPU_PROJECT_ID
  *   ZEROGPU_MODEL   (required — use the model id from your dashboard, same as `npm run benchmark -- --model <id>`)
  *
  * Optional:
@@ -43,12 +42,11 @@ function firstAssistantText(res: Response): string {
 
 async function main() {
   const apiKey = process.env.ZEROGPU_API_KEY?.trim();
-  const projectId = process.env.ZEROGPU_PROJECT_ID?.trim();
   const model = process.env.ZEROGPU_MODEL?.trim();
 
-  if (!apiKey || !projectId) {
+  if (!apiKey) {
     console.error(
-      "Set ZEROGPU_API_KEY and ZEROGPU_PROJECT_ID (e.g. use Benchmark/.env or export in shell)."
+      "Set ZEROGPU_API_KEY (e.g. use Benchmark/.env or export in shell)."
     );
     process.exit(1);
   }
@@ -62,7 +60,6 @@ async function main() {
 
   const client = new ZerogpuApiClient({
     apiKey,
-    projectId,
   });
 
   const useMessageInput = process.env.ZEROGPU_MESSAGE_INPUT === "1";

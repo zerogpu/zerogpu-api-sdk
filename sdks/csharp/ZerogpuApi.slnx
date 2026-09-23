@@ -1,4 +1,0 @@
-<Solution>
-  <Project Path="src/ZerogpuApi.Test/ZerogpuApi.Test.csproj" />
-  <Project Path="src/ZerogpuApi/ZerogpuApi.csproj" />
-</Solution>
