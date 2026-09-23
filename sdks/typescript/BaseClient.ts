@@ -45,14 +45,7 @@ export type NormalizedClientOptionsWithAuth<T extends BaseClientOptions = BaseCl
 export function normalizeClientOptions<T extends BaseClientOptions = BaseClientOptions>(
     options: T,
 ): NormalizedClientOptions<T> {
-    const headers = mergeHeaders(
-        {
-            "X-Fern-Language": "JavaScript",
-            "X-Fern-Runtime": core.RUNTIME.type,
-            "X-Fern-Runtime-Version": core.RUNTIME.version,
-        },
-        options?.headers,
-    );
+    const headers = mergeHeaders(options?.headers);
 
     return {
         ...options,
