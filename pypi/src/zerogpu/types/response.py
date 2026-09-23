@@ -9,7 +9,7 @@ from .token_usage import TokenUsage
 class Response(UniversalBaseModel):
     id: str
     object: str
-    created: int = pydantic.Field()
+    created_at: typing.Optional[int] = pydantic.Field(default=None)
     """
     Unix timestamp when the response was created
     """

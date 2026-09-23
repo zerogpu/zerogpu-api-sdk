@@ -572,7 +572,6 @@ components:
       required:
         - id
         - object
-        - created
         - model
         - output
       properties:
@@ -582,7 +581,7 @@ components:
         object:
           type: string
           example: response
-        created:
+        created_at:
           type: integer
           format: int64
           description: Unix timestamp when the response was created
