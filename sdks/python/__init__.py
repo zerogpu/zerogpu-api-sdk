@@ -4,48 +4,71 @@ import typing
 from importlib import import_module
 
 if typing.TYPE_CHECKING:
+    from .audio import CreateTranscriptionResult, SpeechResponseFormat, TranscriptionResponseFormat
+    from .client import AsyncZerogpuApi, ZerogpuApi
+    from .embeddings import CreateEmbeddingRequestInput
+    from .environment import ZerogpuApiEnvironment
+    from .errors import BadRequestError, ForbiddenError, InternalServerError, MethodFailureError, UnauthorizedError
+    from .moderations import CreateModerationRequestInput
+    from .responses import CreateResponseRequestInput
     from .types import (
         ChatCompletionResponse,
         ChatMessage,
         ChatMessageRole,
+        Embedding,
+        EmbeddingResponse,
+        EmbeddingUsage,
         ErrorResponse,
         InputMessage,
         InputMessageRole,
+        ModerationResponse,
+        ModerationResult,
         OutputContentBlock,
         OutputMessage,
         Response,
         TextResponseConfig,
         TextResponseConfigFormat,
         TokenUsage,
+        TranscriptionResponse,
     )
-    from .errors import BadRequestError, ForbiddenError, InternalServerError, MethodFailureError, UnauthorizedError
-    from . import chat, responses
-    from .client import AsyncZerogpuApi, ZerogpuApi
-    from .environment import ZerogpuApiEnvironment
-    from .responses import CreateResponseRequestInput
+    from . import audio, chat, embeddings, moderations, responses
 _dynamic_imports: typing.Dict[str, str] = {
     "AsyncZerogpuApi": ".client",
     "BadRequestError": ".errors",
     "ChatCompletionResponse": ".types",
     "ChatMessage": ".types",
     "ChatMessageRole": ".types",
+    "CreateEmbeddingRequestInput": ".embeddings",
+    "CreateModerationRequestInput": ".moderations",
     "CreateResponseRequestInput": ".responses",
+    "CreateTranscriptionResult": ".audio",
+    "Embedding": ".types",
+    "EmbeddingResponse": ".types",
+    "EmbeddingUsage": ".types",
     "ErrorResponse": ".types",
     "ForbiddenError": ".errors",
     "InputMessage": ".types",
     "InputMessageRole": ".types",
     "InternalServerError": ".errors",
     "MethodFailureError": ".errors",
+    "ModerationResponse": ".types",
+    "ModerationResult": ".types",
     "OutputContentBlock": ".types",
     "OutputMessage": ".types",
     "Response": ".types",
+    "SpeechResponseFormat": ".audio",
     "TextResponseConfig": ".types",
     "TextResponseConfigFormat": ".types",
     "TokenUsage": ".types",
+    "TranscriptionResponse": ".types",
+    "TranscriptionResponseFormat": ".audio",
     "UnauthorizedError": ".errors",
     "ZerogpuApi": ".client",
     "ZerogpuApiEnvironment": ".environment",
+    "audio": ".audio",
     "chat": ".chat",
+    "embeddings": ".embeddings",
+    "moderations": ".moderations",
     "responses": ".responses",
 }
 
@@ -77,22 +100,36 @@ __all__ = [
     "ChatCompletionResponse",
     "ChatMessage",
     "ChatMessageRole",
+    "CreateEmbeddingRequestInput",
+    "CreateModerationRequestInput",
     "CreateResponseRequestInput",
+    "CreateTranscriptionResult",
+    "Embedding",
+    "EmbeddingResponse",
+    "EmbeddingUsage",
     "ErrorResponse",
     "ForbiddenError",
     "InputMessage",
     "InputMessageRole",
     "InternalServerError",
     "MethodFailureError",
+    "ModerationResponse",
+    "ModerationResult",
     "OutputContentBlock",
     "OutputMessage",
     "Response",
+    "SpeechResponseFormat",
     "TextResponseConfig",
     "TextResponseConfigFormat",
     "TokenUsage",
+    "TranscriptionResponse",
+    "TranscriptionResponseFormat",
     "UnauthorizedError",
     "ZerogpuApi",
     "ZerogpuApiEnvironment",
+    "audio",
     "chat",
+    "embeddings",
+    "moderations",
     "responses",
 ]

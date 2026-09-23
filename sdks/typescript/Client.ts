@@ -1,4 +1,7 @@
+import { AudioClient } from "./api/resources/audio/client/Client.js";
 import { ChatClient } from "./api/resources/chat/client/Client.js";
+import { EmbeddingsClient } from "./api/resources/embeddings/client/Client.js";
+import { ModerationsClient } from "./api/resources/moderations/client/Client.js";
 import { ResponsesClient } from "./api/resources/responses/client/Client.js";
 import type { BaseClientOptions, BaseRequestOptions } from "./BaseClient.js";
 import { type NormalizedClientOptionsWithAuth, normalizeClientOptionsWithAuth } from "./BaseClient.js";
@@ -14,6 +17,9 @@ export class ZerogpuApiClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<ZerogpuApiClient.Options>;
     protected _responses: ResponsesClient | undefined;
     protected _chat: ChatClient | undefined;
+    protected _moderations: ModerationsClient | undefined;
+    protected _embeddings: EmbeddingsClient | undefined;
+    protected _audio: AudioClient | undefined;
 
     constructor(options: ZerogpuApiClient.Options) {
         this._options = normalizeClientOptionsWithAuth(options);
@@ -25,6 +31,18 @@ export class ZerogpuApiClient {
 
     public get chat(): ChatClient {
         return (this._chat ??= new ChatClient(this._options));
+    }
+
+    public get moderations(): ModerationsClient {
+        return (this._moderations ??= new ModerationsClient(this._options));
+    }
+
+    public get embeddings(): EmbeddingsClient {
+        return (this._embeddings ??= new EmbeddingsClient(this._options));
+    }
+
+    public get audio(): AudioClient {
+        return (this._audio ??= new AudioClient(this._options));
     }
 
     /**

@@ -17,6 +17,8 @@ export interface CreateResponseRequest {
      */
     input: CreateResponseRequest.Input;
     text?: ZerogpuApi.TextResponseConfig;
+    /** Optional system-style instructions applied on top of `input`, for models that support them. */
+    instructions?: string;
     /** Optional model-specific parameters (e.g. PII `mask`, `usecase`). Omit when not required. */
     metadata?: Record<string, unknown>;
 }

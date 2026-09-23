@@ -6,7 +6,7 @@
 
 <p align="center">
   <strong>Official API clients for <a href="https://zerogpu.ai">ZeroGPU</a>.</strong><br/>
-  Call <code>POST /v1/responses</code> and <code>POST /v1/chat/completions</code> with typed helpers — publishable packages on <a href="https://www.npmjs.com/package/zerogpu-api">npm</a> (<code>zerogpu-api</code>) and <a href="https://pypi.org/project/zerogpu-api/">PyPI</a> (<code>pip install zerogpu-api</code> → import <code>zerogpu</code>).
+  Typed helpers for responses, chat completions, moderations, embeddings, and audio — publishable packages on <a href="https://www.npmjs.com/package/zerogpu-api">npm</a> (<code>zerogpu-api</code>) and <a href="https://pypi.org/project/zerogpu-api/">PyPI</a> (<code>pip install zerogpu-api</code> → import <code>zerogpu</code>).
 </p>
 
 <p align="center">
@@ -37,7 +37,7 @@
 
 ---
 
-**ZeroGPU API SDKs** are the official API client libraries for [ZeroGPU](https://zerogpu.ai). Use them to call `POST /v1/responses` with your API key.
+**ZeroGPU API SDKs** are the official API client libraries for [ZeroGPU](https://zerogpu.ai). Use them to call responses, chat completions, moderations, embeddings, and audio (transcriptions and speech) with your API key.
 
 **API reference and guides:** [docs.zerogpu.ai](https://docs.zerogpu.ai) (authentication, models, error codes).
 
@@ -80,7 +80,7 @@ The OpenAPI spec models `input` as **either** a non-empty **string** **or** a no
 
 Full spec: [Responses API](https://docs.zerogpu.ai/api-reference/endpoint/responses).
 
-**Also supported:** `POST /v1/chat/completions` via `client.chat` (Python: `client.chat`) for models that use the chat-completions route. Optional **`metadata`** on `POST /v1/responses` is included in `CreateResponseRequest` for model-specific options (e.g. PII).
+**Also supported:** `POST /v1/chat/completions` (`client.chat`), `POST /v1/moderations` (`client.moderations`), `POST /v1/embeddings` (`client.embeddings`), and `POST /v1/audio/transcriptions` / `POST /v1/audio/speech` (`client.audio`). Optional **`metadata`** on `POST /v1/responses` carries model-specific options (e.g. PII).
 
 ---
 

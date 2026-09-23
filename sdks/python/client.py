@@ -8,7 +8,10 @@ from .core.logging import LogConfig, Logger
 from .environment import ZerogpuApiEnvironment
 
 if typing.TYPE_CHECKING:
+    from .audio.client import AsyncAudioClient, AudioClient
     from .chat.client import AsyncChatClient, ChatClient
+    from .embeddings.client import AsyncEmbeddingsClient, EmbeddingsClient
+    from .moderations.client import AsyncModerationsClient, ModerationsClient
     from .responses.client import AsyncResponsesClient, ResponsesClient
 
 
@@ -84,6 +87,9 @@ class ZerogpuApi:
         )
         self._responses: typing.Optional[ResponsesClient] = None
         self._chat: typing.Optional[ChatClient] = None
+        self._moderations: typing.Optional[ModerationsClient] = None
+        self._embeddings: typing.Optional[EmbeddingsClient] = None
+        self._audio: typing.Optional[AudioClient] = None
 
     @property
     def responses(self):
@@ -100,6 +106,30 @@ class ZerogpuApi:
 
             self._chat = ChatClient(client_wrapper=self._client_wrapper)
         return self._chat
+
+    @property
+    def moderations(self):
+        if self._moderations is None:
+            from .moderations.client import ModerationsClient  # noqa: E402
+
+            self._moderations = ModerationsClient(client_wrapper=self._client_wrapper)
+        return self._moderations
+
+    @property
+    def embeddings(self):
+        if self._embeddings is None:
+            from .embeddings.client import EmbeddingsClient  # noqa: E402
+
+            self._embeddings = EmbeddingsClient(client_wrapper=self._client_wrapper)
+        return self._embeddings
+
+    @property
+    def audio(self):
+        if self._audio is None:
+            from .audio.client import AudioClient  # noqa: E402
+
+            self._audio = AudioClient(client_wrapper=self._client_wrapper)
+        return self._audio
 
 
 class AsyncZerogpuApi:
@@ -174,6 +204,9 @@ class AsyncZerogpuApi:
         )
         self._responses: typing.Optional[AsyncResponsesClient] = None
         self._chat: typing.Optional[AsyncChatClient] = None
+        self._moderations: typing.Optional[AsyncModerationsClient] = None
+        self._embeddings: typing.Optional[AsyncEmbeddingsClient] = None
+        self._audio: typing.Optional[AsyncAudioClient] = None
 
     @property
     def responses(self):
@@ -190,6 +223,30 @@ class AsyncZerogpuApi:
 
             self._chat = AsyncChatClient(client_wrapper=self._client_wrapper)
         return self._chat
+
+    @property
+    def moderations(self):
+        if self._moderations is None:
+            from .moderations.client import AsyncModerationsClient  # noqa: E402
+
+            self._moderations = AsyncModerationsClient(client_wrapper=self._client_wrapper)
+        return self._moderations
+
+    @property
+    def embeddings(self):
+        if self._embeddings is None:
+            from .embeddings.client import AsyncEmbeddingsClient  # noqa: E402
+
+            self._embeddings = AsyncEmbeddingsClient(client_wrapper=self._client_wrapper)
+        return self._embeddings
+
+    @property
+    def audio(self):
+        if self._audio is None:
+            from .audio.client import AsyncAudioClient  # noqa: E402
+
+            self._audio = AsyncAudioClient(client_wrapper=self._client_wrapper)
+        return self._audio
 
 
 def _get_base_url(*, base_url: typing.Optional[str] = None, environment: ZerogpuApiEnvironment) -> str:

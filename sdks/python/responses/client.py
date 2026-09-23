@@ -32,6 +32,7 @@ class ResponsesClient:
         model: str,
         input: CreateResponseRequestInput,
         text: typing.Optional[TextResponseConfig] = OMIT,
+        instructions: typing.Optional[str] = OMIT,
         metadata: typing.Optional[typing.Dict[str, typing.Any]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Response:
@@ -47,6 +48,9 @@ class ResponsesClient:
             required by your model; see [docs](https://docs.zerogpu.ai/api-reference/endpoint/responses).
 
         text : typing.Optional[TextResponseConfig]
+
+        instructions : typing.Optional[str]
+            Optional system-style instructions applied on top of `input`, for models that support them.
 
         metadata : typing.Optional[typing.Dict[str, typing.Any]]
             Optional model-specific parameters (e.g. PII `mask`, `usecase`). Omit when not required.
@@ -72,7 +76,7 @@ class ResponsesClient:
         )
         """
         _response = self._raw_client.create_response(
-            model=model, input=input, text=text, metadata=metadata, request_options=request_options
+            model=model, input=input, text=text, instructions=instructions, metadata=metadata, request_options=request_options
         )
         return _response.data
 
@@ -98,6 +102,7 @@ class AsyncResponsesClient:
         model: str,
         input: CreateResponseRequestInput,
         text: typing.Optional[TextResponseConfig] = OMIT,
+        instructions: typing.Optional[str] = OMIT,
         metadata: typing.Optional[typing.Dict[str, typing.Any]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Response:
@@ -113,6 +118,9 @@ class AsyncResponsesClient:
             required by your model; see [docs](https://docs.zerogpu.ai/api-reference/endpoint/responses).
 
         text : typing.Optional[TextResponseConfig]
+
+        instructions : typing.Optional[str]
+            Optional system-style instructions applied on top of `input`, for models that support them.
 
         metadata : typing.Optional[typing.Dict[str, typing.Any]]
             Optional model-specific parameters (e.g. PII `mask`, `usecase`). Omit when not required.
@@ -146,6 +154,6 @@ class AsyncResponsesClient:
         asyncio.run(main())
         """
         _response = await self._raw_client.create_response(
-            model=model, input=input, text=text, metadata=metadata, request_options=request_options
+            model=model, input=input, text=text, instructions=instructions, metadata=metadata, request_options=request_options
         )
         return _response.data
