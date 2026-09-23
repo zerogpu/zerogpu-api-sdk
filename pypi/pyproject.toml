@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "zerogpu-api"
+name = "zerogpu-sdk"
 version = "1.0.0"
 description = "Official ZeroGPU Python client (responses, chat completions, moderations, embeddings, audio). Published from ZeroGPU API SDKs."
 readme = "README.md"

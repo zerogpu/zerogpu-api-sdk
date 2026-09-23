@@ -6,7 +6,7 @@
 
 <p align="center">
   <strong>Official API clients for <a href="https://zerogpu.ai">ZeroGPU</a>.</strong><br/>
-  Typed helpers for responses, chat completions, moderations, embeddings, and audio — publishable packages on <a href="https://www.npmjs.com/package/zerogpu-api">npm</a> (<code>zerogpu-api</code>) and <a href="https://pypi.org/project/zerogpu-api/">PyPI</a> (<code>pip install zerogpu-api</code> → import <code>zerogpu</code>).
+  Typed helpers for responses, chat completions, moderations, embeddings, and audio — publishable packages on <a href="https://www.npmjs.com/package/zerogpu-api">npm</a> (<code>zerogpu-api</code>) and <a href="https://pypi.org/project/zerogpu-sdk/">PyPI</a> (<code>pip install zerogpu-sdk</code> → import <code>zerogpu</code>).
 </p>
 
 <p align="center">
@@ -26,7 +26,7 @@
 <p align="center">
   <a href="https://github.com/zerogpu/SDK/stargazers"><img src="https://img.shields.io/github/stars/zerogpu/SDK?style=flat-square" alt="GitHub stars" /></a>
   <a href="https://www.npmjs.com/package/zerogpu-api"><img src="https://img.shields.io/npm/v/zerogpu-api?style=flat-square" alt="npm version" /></a>
-  <a href="https://pypi.org/project/zerogpu-api/"><img src="https://img.shields.io/pypi/v/zerogpu-api?style=flat-square" alt="PyPI version" /></a>
+  <a href="https://pypi.org/project/zerogpu-sdk/"><img src="https://img.shields.io/pypi/v/zerogpu-sdk?style=flat-square" alt="PyPI version" /></a>
   <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="License" />
   <a href="https://github.com/zerogpu/zerogpu-router"><img src="https://img.shields.io/badge/Related-Router-111827?style=flat-square" alt="ZeroGPU Router" /></a>
 </p>
@@ -46,7 +46,7 @@
 | Registry | Package | Source |
 |----------|---------|--------|
 | [npm](https://www.npmjs.com/package/zerogpu-api) | `zerogpu-api` | [`npm/`](./npm/) (bundles `sdks/typescript`) |
-| [PyPI](https://pypi.org/project/zerogpu-api/) | `zerogpu-api` (import `zerogpu`) | [`pypi/`](./pypi/) (synced from `sdks/python`) |
+| [PyPI](https://pypi.org/project/zerogpu-sdk/) | `zerogpu-sdk` (import `zerogpu`) | [`pypi/`](./pypi/) (synced from `sdks/python`) |
 
 ## Quick start (local checkout)
 
@@ -93,7 +93,7 @@ The clients in `sdks/typescript` and `sdks/python` are maintained by hand. When 
 | Path | Registry | Package name (change if taken) |
 |------|----------|----------------------------------|
 | [`npm/`](./npm/) | [npmjs.com](https://www.npmjs.com/) | `zerogpu-api` (see `npm/package.json`) |
-| [`pypi/`](./pypi/) | [PyPI](https://pypi.org/) | `zerogpu-api` — `pip install zerogpu-api` imports **`zerogpu`** |
+| [`pypi/`](./pypi/) | [PyPI](https://pypi.org/) | `zerogpu-sdk` — `pip install zerogpu-sdk` imports **`zerogpu`** |
 
 **npm**
 

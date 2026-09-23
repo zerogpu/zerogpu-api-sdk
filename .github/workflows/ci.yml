@@ -1,0 +1,145 @@
+name: CI
+
+# Builds both packages on every PR to main and every push to main.
+# On push to main, each package is published if its version is newer than
+# what's on the registry — bump npm/package.json or pypi/pyproject.toml to release.
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  build-npm:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Build zerogpu-api (npm)
+        working-directory: npm
+        run: npm ci && npm run build
+
+  build-pypi:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Check pypi/src is in sync with sdks/python
+        run: |
+          ./scripts/sync-pypi-from-sdks.sh
+          if [ -n "$(git status --porcelain pypi/src)" ]; then
+            git status --porcelain pypi/src
+            echo "::error::pypi/src/zerogpu is out of sync with sdks/python. Run scripts/sync-pypi-from-sdks.sh and commit."
+            exit 1
+          fi
+
+      - name: Build zerogpu-sdk (PyPI)
+        working-directory: pypi
+        run: |
+          pip install build twine
+          python -m build
+          twine check dist/*
+
+      - name: Import smoke check
+        run: |
+          pip install pypi/dist/*.whl
+          python -c "import zerogpu; print('import ok')"
+
+  publish-npm:
+    needs: build-npm
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: https://registry.npmjs.org
+
+      - name: Check for version bump
+        id: bump
+        working-directory: npm
+        run: |
+          local=$(node -p "require('./package.json').version")
+          published=$(npm view zerogpu-api version 2>/dev/null || echo "0.0.0")
+          echo "local=$local published=$published"
+          if npx --yes semver@7 -r ">$published" "$local" >/dev/null; then
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "No newer version to publish."
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Publish zerogpu-api
+        if: steps.bump.outputs.publish == 'true'
+        working-directory: npm
+        run: npm ci && npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  publish-pypi:
+    needs: build-pypi
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install build tools
+        run: pip install build twine packaging
+
+      - name: Check for version bump
+        id: bump
+        run: |
+          python - <<'EOF' >> "$GITHUB_OUTPUT"
+          import json, sys, tomllib, urllib.error, urllib.request
+          from packaging.version import Version
+
+          local = tomllib.load(open("pypi/pyproject.toml", "rb"))["project"]["version"]
+          try:
+              with urllib.request.urlopen("https://pypi.org/pypi/zerogpu-sdk/json") as r:
+                  published = json.load(r)["info"]["version"]
+          except urllib.error.HTTPError:
+              published = "0.0.0"
+          print(f"local={local} published={published}", file=sys.stderr)
+          print(f"publish={'true' if Version(local) > Version(published) else 'false'}")
+          EOF
+
+      - name: Build
+        if: steps.bump.outputs.publish == 'true'
+        working-directory: pypi
+        run: |
+          python -m build
+          twine check dist/*
+
+      - name: Publish to PyPI
+        if: steps.bump.outputs.publish == 'true'
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: pypi/dist/
+          password: ${{ secrets.PYPI_TOKEN }}

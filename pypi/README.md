@@ -1,11 +1,11 @@
-# zerogpu-api (Python SDK)
+# zerogpu-sdk (Python SDK)
 
 Official Python client for the ZeroGPU API: responses, chat completions, moderations, embeddings, and audio (transcriptions and speech), authenticated with your API key (`x-api-key` header). Published from [**ZeroGPU API SDKs**](https://github.com/zerogpu/SDK) (`pypi/` in that repository).
 
 ## Install
 
 ```bash
-pip install zerogpu-api
+pip install zerogpu-sdk
 ```
 
 ## Quick start — Responses
