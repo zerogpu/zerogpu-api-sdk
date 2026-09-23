@@ -41,23 +41,12 @@
 
 **API reference and guides:** [docs.zerogpu.ai](https://docs.zerogpu.ai) (authentication, models, error codes).
 
-## Languages
+## Packages
 
-Clients live under `sdks/`:
-
-| Directory | Language |
-|-----------|----------|
-| `sdks/typescript` | TypeScript / JavaScript |
-| `sdks/python` | Python |
-| `sdks/go` | Go |
-| `sdks/ruby` | Ruby |
-| `sdks/java` | Java |
-| `sdks/rust` | Rust |
-| `sdks/csharp` | C# / .NET |
-| `sdks/php/sdk` | PHP |
-| `sdks/swift/sdk` | Swift |
-
-When you publish packages to npm, PyPI, crates.io, etc., point users at those registries and [docs.zerogpu.ai](https://docs.zerogpu.ai); most developers do not need the internals of the **ZeroGPU API SDKs** repository.
+| Registry | Package | Source |
+|----------|---------|--------|
+| [npm](https://www.npmjs.com/package/zerogpu-api) | `zerogpu-api` | [`npm/`](./npm/) (bundles `sdks/typescript`) |
+| [PyPI](https://pypi.org/project/zerogpu-api/) | `zerogpu-api` (import `zerogpu`) | [`pypi/`](./pypi/) (synced from `sdks/python`) |
 
 ## Quick start (local checkout)
 
@@ -68,7 +57,7 @@ Environment variables (same as the [dashboard](https://zerogpu.ai) snippets):
 
 Clients always use the production API base URL `https://api.zerogpu.ai/v1`. There is no environment variable to change it.
 
-**Smoke tests** — one live `POST /v1/responses` per generated SDK; see [`smoke/README.md`](./smoke/README.md). TypeScript example:
+**Smoke tests** — one live `POST /v1/responses` per SDK (TypeScript and Python); see [`smoke/README.md`](./smoke/README.md). TypeScript example:
 
 ```bash
 cd smoke/typescript
@@ -78,8 +67,6 @@ export ZEROGPU_PROJECT_ID=…
 export ZEROGPU_MODEL=…   # from your dashboard
 npm run smoke
 ```
-
-Go uses the repo [`go.work`](./go.work) so builds resolve the `sdk` module; from the **Fern SDK** directory run `go run -C smoke/go .` (after exporting the same variables).
 
 Do not commit secrets.
 
@@ -148,13 +135,12 @@ After regenerating Python with Fern, run **`sync-pypi-from-sdks.sh`** so `pypi/s
 |------|-------------|
 | `specs/zerogpu.openapi.yaml` | API definition used for generation |
 | `fern/` | Fern configuration |
-| `sdks/` | Generated output (do not hand-edit; regenerate) |
+| `sdks/` | Generated TypeScript and Python clients (do not hand-edit; regenerate) |
 | `npm/` | npm package (`tsup` bundles `sdks/typescript`) |
 | `pypi/` | PyPI package (`src/zerogpu` synced from `sdks/python`) |
 | `scripts/sync-pypi-from-sdks.sh` | Refresh Python package after Fern regen |
-| `go.work` | Go workspace linking `sdks/go` and `smoke/go` for smoke runs |
-| `smoke/` | Live-request smoke tests per SDK (see `smoke/README.md`) |
+| `smoke/` | Live-request smoke tests for TypeScript and Python (see `smoke/README.md`) |
 
 ## License
 
-Add a root `LICENSE` when you publish; align it with packages you ship to npm, PyPI, etc.
+Add a root `LICENSE` when you publish; align it with the npm and PyPI packages.
